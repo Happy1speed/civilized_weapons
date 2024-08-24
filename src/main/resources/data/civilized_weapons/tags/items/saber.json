@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_saber",
+    "civilized_weapons:diamond_saber",
+    "civilized_weapons:golden_saber",
+    "civilized_weapons:netherite_saber",
+    "civilized_weapons:thallasium_saber",
+    "civilized_weapons:terminite_saber",
+    "civilized_weapons:aeternium_saber",
+    "civilized_weapons:bedrock_saber"
+  ]
+}

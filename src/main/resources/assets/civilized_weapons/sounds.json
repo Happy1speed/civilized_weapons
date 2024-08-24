@@ -1,0 +1,64 @@
+{
+  "cast_iron_pan_sound": {
+    "subtitle": "sounds.civilized_weapons.cast_iron_pan_sound",
+    "sounds": [
+      "civilized_weapons:cast_iron_pan_sound"
+
+    ]
+  },
+  "heavy_thick_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.heavy_thick_swoosh_sound",
+    "sounds": [
+       "civilized_weapons:heavy_swoosh1"
+    ]
+  },
+  "medium_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.medium_swoosh_sound",
+    "sounds": [
+      "civilized_weapons:medium_swing1"
+
+    ]
+  },
+  "hefty_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.hefty_swoosh_sound",
+    "sounds": [
+      "civilized_weapons:hefty_swoosh"
+
+    ]
+  },
+  "thin_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.thin_swoosh_sound",
+    "sounds": [
+      "civilized_weapons:thin_swoosh"
+
+    ]
+  },
+  "light_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.light_swoosh_sound",
+    "sounds": [
+      "civilized_weapons:tiny_swoosh"
+
+    ]
+  },
+  "spin_swoosh_sound": {
+    "subtitle": "sounds.civilized_weapons.spin_swoosh_sound",
+    "sounds": [
+      "civilized_weapons:spin_attack"
+
+    ]
+  },
+  "spear_hit_sound": {
+    "subtitle": "sounds.civilized_weapons.spear_hit_sound",
+    "sounds": [
+      "civilized_weapons:spear_hit"
+
+    ]
+  },
+  "flail_swing_sound": {
+    "subtitle": "sounds.civilized_weapons.flail_swing_sound",
+    "sounds": [
+      "civilized_weapons:flail_swing_sound"
+
+    ]
+  }
+}

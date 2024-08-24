@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "net.happyspeed.civilized_weapons.mixin",
+  "plugin": "net.happyspeed.civilized_weapons.ModMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LivingEntityKnockbackMixin",
+    "PlayerEntityAccessor",
+    "PlayerEntityCorrectSweepMixin",
+    "PlayerEntityKnockbackMixin",
+    "PlayerEntityMixin",
+    "PlayerEntitySprintKnockbackMixin",
+    "ServerPlayNetworkHandlerMixin",
+    "SwordItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "client.MinecraftClientMixin"
+  ]
+}

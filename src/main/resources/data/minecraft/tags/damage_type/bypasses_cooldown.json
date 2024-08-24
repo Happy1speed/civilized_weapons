@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:apdamage",
+    "civilized_weapons:layerdamage",
+    "civilized_weapons:sunstrikedamage"
+  ]
+}

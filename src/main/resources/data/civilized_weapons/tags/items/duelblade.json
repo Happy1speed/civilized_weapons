@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_duelblade",
+    "civilized_weapons:diamond_duelblade",
+    "civilized_weapons:golden_duelblade",
+    "civilized_weapons:netherite_duelblade",
+    "civilized_weapons:thallasium_duelblade",
+    "civilized_weapons:terminite_duelblade",
+    "civilized_weapons:aeternium_duelblade",
+    "civilized_weapons:bedrock_duelblade"
+  ]
+}

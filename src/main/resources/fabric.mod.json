@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "civilized_weapons",
+	"version": "${version}",
+	"name": "Civilized Weapons",
+	"description": "Weapons From a more civilized age",
+	"authors": [
+		"Happy1speed"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/civilized_weapons/icon.png",
+	"environment": "*",
+	"accessWidener" : "civilizedweapons.accesswidener",
+	"entrypoints": {
+		"main": [
+			"net.happyspeed.civilized_weapons.CivilizedWeaponsMod"
+		],
+		"client": [
+			"net.happyspeed.civilized_weapons.CivilizedWeaponsModClient"
+		],
+		"fabric-datagen": [
+			"net.happyspeed.civilized_weapons.CivilizedWeaponsModDataGenerator"
+		]
+	},
+	"mixins": [
+		"civilized_weapons.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.8",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"reach-entity-attributes": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

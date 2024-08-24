@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_broadsword",
+    "civilized_weapons:diamond_broadsword",
+    "civilized_weapons:golden_broadsword",
+    "civilized_weapons:netherite_broadsword",
+    "civilized_weapons:thallasium_broadsword",
+    "civilized_weapons:terminite_broadsword",
+    "civilized_weapons:aeternium_broadsword",
+    "civilized_weapons:bedrock_broadsword"
+  ]
+}

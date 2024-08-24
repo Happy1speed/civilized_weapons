@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_spear",
+    "civilized_weapons:diamond_spear",
+    "civilized_weapons:golden_spear",
+    "civilized_weapons:netherite_spear",
+    "civilized_weapons:thallasium_spear",
+    "civilized_weapons:terminite_spear",
+    "civilized_weapons:aeternium_spear",
+    "civilized_weapons:bedrock_spear"
+  ]
+}

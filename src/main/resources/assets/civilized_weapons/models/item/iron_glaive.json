@@ -1,0 +1,6 @@
+{
+  "parent": "civilized_weapons:item/glaive_item",
+  "textures": {
+    "0": "civilized_weapons:item/iron_glaive"
+  }
+}

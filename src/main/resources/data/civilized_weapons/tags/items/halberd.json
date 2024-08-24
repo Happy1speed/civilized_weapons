@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_halberd",
+    "civilized_weapons:diamond_halberd",
+    "civilized_weapons:golden_halberd",
+    "civilized_weapons:netherite_halberd",
+    "civilized_weapons:thallasium_halberd",
+    "civilized_weapons:terminite_halberd",
+    "civilized_weapons:aeternium_halberd",
+    "civilized_weapons:bedrock_halberd"
+  ]
+}

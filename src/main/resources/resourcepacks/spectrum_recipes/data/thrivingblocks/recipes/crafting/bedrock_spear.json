@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "spectrum:bedrock_sword"
+  },
+  "result": "civilized_weapons:bedrock_spear"
+}

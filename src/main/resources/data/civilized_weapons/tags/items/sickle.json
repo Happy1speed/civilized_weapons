@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_sickle",
+    "civilized_weapons:diamond_sickle",
+    "civilized_weapons:golden_sickle",
+    "civilized_weapons:netherite_sickle",
+    "civilized_weapons:thallasium_sickle",
+    "civilized_weapons:terminite_sickle",
+    "civilized_weapons:aeternium_sickle",
+    "civilized_weapons:bedrock_sickle"
+  ]
+}

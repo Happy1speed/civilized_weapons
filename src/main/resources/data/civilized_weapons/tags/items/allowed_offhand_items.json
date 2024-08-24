@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:totem_of_undying",
+    "minecraft:spyglass",
+    "minecraft:map",
+    "minecraft:filled_map",
+    "minecraft:compass",
+    "minecraft:recovery_compass"
+  ]
+}

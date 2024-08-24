@@ -1,0 +1,6 @@
+{
+  "parent": "civilized_weapons:item/duelblade_item",
+  "textures": {
+    "0": "civilized_weapons:item/thallasium_duelblade"
+  }
+}

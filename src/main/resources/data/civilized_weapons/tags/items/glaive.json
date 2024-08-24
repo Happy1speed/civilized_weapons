@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_glaive",
+    "civilized_weapons:diamond_glaive",
+    "civilized_weapons:golden_glaive",
+    "civilized_weapons:netherite_glaive",
+    "civilized_weapons:thallasium_glaive",
+    "civilized_weapons:terminite_glaive",
+    "civilized_weapons:aeternium_glaive",
+    "civilized_weapons:bedrock_glaive"
+  ]
+}
