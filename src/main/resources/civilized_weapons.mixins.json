@@ -10,8 +10,7 @@
     "PlayerEntityKnockbackMixin",
     "PlayerEntityMixin",
     "PlayerEntitySprintKnockbackMixin",
-    "ServerPlayNetworkHandlerMixin",
-    "SwordItemMixin"
+    "ServerPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -48,7 +48,7 @@ import java.util.List;
 public class PanItemTemplate extends AdvancedWeaponTemplate {
 
     public PanItemTemplate(Settings settings) {
-        super(ModToolMaterial.CAST_IRON,4,-2.0F, 1.3f, 0.8f,true,
+        super(ModToolMaterial.CAST_IRON,4,-2.2F, 1.3f, 0.8f,true,
                 0.0f, 0.0f, 3.0f, 0.0f, false, true,
                 true,true, ModSounds.HEAVYTHICKSWOOSHSOUND ,0.0f,0.0f, 0.5f, -0.2f, settings);
     }

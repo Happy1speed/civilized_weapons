@@ -35,7 +35,7 @@ import java.util.List;
 public class SaberItemTemplate extends AdvancedWeaponTemplate {
     Entity lockedtarget;
     public SaberItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
-        super(material,attackDamage,-1.8f,1.4f,0.4f,true,4.0f,
+        super(material,attackDamage,-2.0f,1.4f,0.4f,true,4.0f,
                 0.0f,3.0f,0.4f,false, true,
                 true, true, ModSounds.THINSWOOSHSOUND,  2.7f,0.3f, 0.5f,-0.3f, settings);
         this.weaponSweepDamage = this.getAttackDamage();

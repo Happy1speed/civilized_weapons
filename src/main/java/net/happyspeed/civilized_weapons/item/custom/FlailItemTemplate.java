@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class FlailItemTemplate extends AdvancedWeaponTemplate {
     public FlailItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
-        super(material,attackDamage,-2.0f,1.6f,0.5f,false,0.0f,
+        super(material,attackDamage,-1.8f,1.6f,0.5f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 false,true, ModSounds.MEDIUMSWOOSHSOUND,  0.0f, 0.0f, 0.4f, -0.2f, settings);
     }

@@ -35,7 +35,7 @@ import java.util.List;
 
 public class SpearItemTemplate extends AdvancedWeaponTemplate {
     public SpearItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.4f,1.2f,0.4f,false,0.0f,
+        super(material,attackDamage,-2.5f,1.2f,0.4f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 false,true, ModSounds.HEFTYSWOOSHSOUND, 0.0f,0.0f, 0.6f,0.2f, settings);
     }

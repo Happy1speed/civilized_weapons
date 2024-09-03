@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SickleItemTemplate extends AdvancedWeaponTemplate {
     public SickleItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-1.6f,1.1f,0.1f,false,0.0f,
+        super(material,attackDamage,-1.8f,1.1f,0.1f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 true,true, ModSounds.THINSWOOSHSOUND, 0.0f,0.0f, 0.3f,-0.4f, settings);
     }

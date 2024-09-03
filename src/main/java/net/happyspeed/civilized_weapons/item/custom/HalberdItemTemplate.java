@@ -33,7 +33,7 @@ import java.util.List;
 
 public class HalberdItemTemplate extends AdvancedWeaponTemplate {
     public HalberdItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-3.0f,1.0f,0.6f,false,0.0f,
+        super(material,attackDamage,-3.2f,1.0f,0.6f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 false,true, ModSounds.HEAVYTHICKSWOOSHSOUND,  0.0f, 0.0f, 0.5f, 0.6f, settings);
     }

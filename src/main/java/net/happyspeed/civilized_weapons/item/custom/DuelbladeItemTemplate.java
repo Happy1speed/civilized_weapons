@@ -40,7 +40,7 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
     int soundpitchmax = 0;
     float tempsweepknockback = 0.0f;
     public DuelbladeItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.4f,1.4f,0.6f,true,6.0f,
+        super(material,attackDamage,-2.6f,1.4f,0.6f,true,6.0f,
                 0.0f,4.0f,0.35f,true, true,
                 true,true, ModSounds.THINSWOOSHSOUND,  3.0f, 0.1f, 0.5f, 0.2f, settings);
         this.weaponSweepDamage = this.getAttackDamage() + 1;

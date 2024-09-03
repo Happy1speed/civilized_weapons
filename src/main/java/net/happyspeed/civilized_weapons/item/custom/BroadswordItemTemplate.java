@@ -34,7 +34,7 @@ import java.util.Random;
 
 public class BroadswordItemTemplate extends AdvancedWeaponTemplate {
     public BroadswordItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.6f,1.7f,0.5f,false,0.0f,
+        super(material,attackDamage,-2.8f,1.7f,0.5f,false,0.0f,
                 1.0f,1.0f,0.0f,false, false,true,
                 true, ModSounds.HEFTYSWOOSHSOUND,  0.0f, 0.0f, 0.35f, -0.4f, settings);
     }
