@@ -6,6 +6,7 @@ import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EquipmentSlot;
@@ -94,10 +95,6 @@ public class AdvancedWeaponTemplate extends ToolItem {
         pitch = pitch / 100;
         livingEntity.getWorld().playSound(null, livingEntity.getBlockPos(), soundEvent, SoundCategory.PLAYERS, volume,pitch);
     }
-    public boolean isCriticalHit(PlayerEntity playerEntity) {
-        return playerEntity.fallDistance > 0 && !this.wasSprinting && !playerEntity.isTouchingWater() && !playerEntity.isClimbing() && this.prevAttackProgress > 0.9 && !playerEntity.hasStatusEffect(StatusEffects.BLINDNESS) && !playerEntity.hasVehicle();
-
-    }
     //handle swing sound effect and custom sweeping if weapon has that
     public void activeHit(LivingEntity living) {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
@@ -105,7 +102,7 @@ public class AdvancedWeaponTemplate extends ToolItem {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
                 if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.7) {
                     if (this.canSweepWhileSprinting || (!player.isSprinting() || player.isSneaking())) {
-                        if (this.canSweepWhileCritical || !this.isCriticalHit(player)) {
+                        if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().offset(player.getRotationVector().multiply(this.weaponSweepRange,
                                     this.weaponSweepRange, this.weaponSweepRange)).expand(this.weaponSweepWidth, this.weaponSweepWidth, this.weaponSweepWidth));
                             for (LivingEntity livingEntity : list) {

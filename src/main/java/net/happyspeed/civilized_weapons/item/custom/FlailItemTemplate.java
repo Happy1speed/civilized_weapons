@@ -4,6 +4,7 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -32,7 +33,7 @@ public class FlailItemTemplate extends AdvancedWeaponTemplate {
     public FlailItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
         super(material,attackDamage,-1.8f,1.6f,0.5f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
-                false,true, ModSounds.MEDIUMSWOOSHSOUND,  0.0f, 0.0f, 0.4f, -0.2f, settings);
+                false,true, ModSounds.MEDIUMSWOOSHSOUND,  0.0f, 0.0f, 0.4f, -0.3f, settings);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -89,7 +90,7 @@ public class FlailItemTemplate extends AdvancedWeaponTemplate {
             if (!target.isTeammate(player)) {
                 if (EnchantmentHelper.getLevel(ModEnchantments.HUGESWING, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && !attacker.getWorld().isClient() && !target.blockedByShield(new DamageSource(target.getDamageSources().playerAttack(player).getTypeRegistryEntry()))) {
                     if (target.getHealth() > target.getMaxHealth() * 0.8) {
-                        if (!this.isCriticalHit(player)) {
+                        if (!CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE), (float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5) * player.getAttackCooldownProgress(1.0f));
                             target.takeKnockback(this.weaponKnockbackMulti, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                         }
@@ -118,7 +119,7 @@ public class FlailItemTemplate extends AdvancedWeaponTemplate {
                         }
                     }
                 }
-                if (!this.isCriticalHit(player)) {
+                if (!CivilizedHelper.isCriticalHit(player, 0.9f)) {
                     if (!target.getWorld().isClient() && !attacker.getWorld().isClient() && target.blockedByShield(new DamageSource(target.getDamageSources().playerAttack(player).getTypeRegistryEntry()))) {
                         this.playRandomPitchSound(ModSounds.PANHITSOUND, target, (float) UniversalVars.SWINGSOUNDSVOLUME, 160, 180);
                         target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SHIELD_BREACH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * player.getAttackCooldownProgress(1.0f)));

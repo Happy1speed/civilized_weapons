@@ -4,6 +4,7 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.client.item.TooltipContext;
@@ -43,7 +44,7 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player && !target.isTeammate(player)) {
-            if (!this.isCriticalHit(player) && this.wasSprinting && this.prevAttackProgress > 0.7f && !player.isSneaking()) {
+            if (!CivilizedHelper.isCriticalHit(player, 0.9f) && this.wasSprinting && this.prevAttackProgress > 0.4f && !player.isSneaking()) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
                 target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.5f) * this.prevAttackProgress)));
                 player.setSprinting(true);

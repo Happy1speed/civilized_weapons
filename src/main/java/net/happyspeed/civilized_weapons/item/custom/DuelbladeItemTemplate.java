@@ -4,6 +4,7 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.CivilizedWeaponsModClient;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.client.item.TooltipContext;
@@ -52,7 +53,7 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
                 if (player.getAttackCooldownProgress(1.0f) > 0.7) {
                     if (this.canSweepWhileSprinting || !player.isSprinting() || player.isSneaking()) {
-                        if (this.canSweepWhileCritical || !this.isCriticalHit(player)) {
+                        if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
 
                             if (!player.isSneaking()) {
                                 this.realSweepDistance = 3.0f;
@@ -87,7 +88,14 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
                                         continue;
                                     }
                                     if (player.canSee(livingEntity)) {
-                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
+                                        if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                                            livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
+                                            player.addCritParticles(livingEntity);
+                                            this.playRandomPitchSound(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, livingEntity, 100, 80, 100);
+                                        }
+                                        else {
+                                            livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
+                                        }
                                         if (!player.isSneaking()) {
                                             livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                                             livingEntity.velocityModified = true;

@@ -149,5 +149,6 @@
   "effect.civilized_weapons.sunstrike_effect": "Sun Strike",
 
   "pack.civilized_weapons.betterend_compat_text": "Recipes for Betterend Civilized Weapons",
-  "pack.civilized_weapons.spectrum_compat_text": "Recipes for Spectrum Civilized Weapons"
+  "pack.civilized_weapons.spectrum_compat_text": "Recipes for Spectrum Civilized Weapons",
+  "pack.civilized_weapons.weaponpospack": "Default Hand Held Positions for Weapons"
 }

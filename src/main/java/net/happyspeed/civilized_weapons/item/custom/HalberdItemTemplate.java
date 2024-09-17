@@ -4,6 +4,7 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.client.item.TooltipContext;
@@ -42,7 +43,7 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
             if (!target.isTeammate(player)) {
-                if (this.isCriticalHit(player)) {
+                if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
                     target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f);
                     if (EnchantmentHelper.getLevel(ModEnchantments.EXECUTION, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && player.fallDistance > 4) {
                         target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) ((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * Math.min(2.5, player.fallDistance * 0.1)));

@@ -67,6 +67,12 @@ public class CivilizedWeaponsMod implements ModInitializer {
 			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CivilizedWeaponsMod.MOD_ID, "spectrum_recipes"), (ModContainer) modContainer.get(), Text.translatable("pack.civilized_weapons.spectrum_compat_text"), ResourcePackActivationType.ALWAYS_ENABLED);
 		}
 
+		ResourceManagerHelper.registerBuiltinResourcePack(
+				new Identifier(MOD_ID, "weapon_default_positions"), modContainer.get(),
+				Text.translatable("pack.civilized_weapons.weaponpospack"),
+				ResourcePackActivationType.NORMAL
+		);
+
 		ModSounds.registerSounds();
 
 		PlayerAttackPacket.init();

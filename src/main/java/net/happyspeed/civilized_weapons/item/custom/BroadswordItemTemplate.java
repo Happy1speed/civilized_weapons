@@ -5,6 +5,7 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -36,14 +37,14 @@ public class BroadswordItemTemplate extends AdvancedWeaponTemplate {
     public BroadswordItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-2.8f,1.7f,0.5f,false,0.0f,
                 1.0f,1.0f,0.0f,false, false,true,
-                true, ModSounds.HEFTYSWOOSHSOUND,  0.0f, 0.0f, 0.35f, -0.4f, settings);
+                true, ModSounds.HEFTYSWOOSHSOUND,  0.0f, 0.0f, 0.35f, -0.5f, settings);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
             //Ground Slam Enchant Logic
-            if (EnchantmentHelper.getLevel(ModEnchantments.GROUNDSLAM, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.isCriticalHit(player) && player.fallDistance > 2) {
+            if (EnchantmentHelper.getLevel(ModEnchantments.GROUNDSLAM, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && !CivilizedHelper.isCriticalHit(player, 0.9f) && player.fallDistance > 2) {
                 List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().expand(3.0, 1.2, 3.0));
                 for (LivingEntity livingEntity : list) {
                     if (!livingEntity.isTeammate(player)) {
