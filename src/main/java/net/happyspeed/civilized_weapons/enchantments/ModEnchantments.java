@@ -7,7 +7,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModEnchantments {
-    public static final Enchantment DUMMY = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "dummy"), new DummyEnchantment());
     public static final Enchantment SEQUENCE = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "sequence"), new SequenceEnchantment());
     public static final Enchantment JOUSTING = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "jousting"), new JoustingEnchantment());
     public static final Enchantment RETREAT = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "retreat"), new RetreatEnchantment());

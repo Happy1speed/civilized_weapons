@@ -26,7 +26,7 @@ public class ModItems {
     public static final Item IRON_SABER = registerItem("iron_saber",
             new SaberItemTemplate(ToolMaterials.IRON, 4.0F,new FabricItemSettings()));
     public static final Item IRON_SPEAR = registerItem("iron_spear",
-            new SpearItemTemplate(ToolMaterials.IRON, 5.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ToolMaterials.IRON, 4.0F, new FabricItemSettings()));
     public static final Item IRON_BROADSWORD = registerItem("iron_broadsword",
             new BroadswordItemTemplate(ToolMaterials.IRON, 6.0F, new FabricItemSettings()));
     public static final Item IRON_GLAIVE = registerItem("iron_glaive",
@@ -44,7 +44,7 @@ public class ModItems {
     public static final Item DIAMOND_SABER = registerItem("diamond_saber",
             new SaberItemTemplate(ToolMaterials.DIAMOND, 5.0F,new FabricItemSettings()));
     public static final Item DIAMOND_SPEAR = registerItem("diamond_spear",
-            new SpearItemTemplate(ToolMaterials.DIAMOND, 6.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ToolMaterials.DIAMOND, 5.0F, new FabricItemSettings()));
     public static final Item DIAMOND_BROADSWORD = registerItem("diamond_broadsword",
             new BroadswordItemTemplate(ToolMaterials.DIAMOND, 7.0F, new FabricItemSettings()));
     public static final Item DIAMOND_GLAIVE = registerItem("diamond_glaive",
@@ -61,7 +61,7 @@ public class ModItems {
     public static final Item GOLDEN_SABER = registerItem("golden_saber",
             new SaberItemTemplate(ToolMaterials.GOLD, 3.0F,new FabricItemSettings()));
     public static final Item GOLDEN_SPEAR = registerItem("golden_spear",
-            new SpearItemTemplate(ToolMaterials.GOLD, 4.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ToolMaterials.GOLD, 3.0F, new FabricItemSettings()));
     public static final Item GOLDEN_BROADSWORD = registerItem("golden_broadsword",
             new BroadswordItemTemplate(ToolMaterials.GOLD, 5.0F, new FabricItemSettings()));
     public static final Item GOLDEN_GLAIVE = registerItem("golden_glaive",
@@ -78,7 +78,7 @@ public class ModItems {
     public static final Item NETHERITE_SABER = registerItem("netherite_saber",
             new SaberItemTemplate(ToolMaterials.NETHERITE, 6.0F,new FabricItemSettings()));
     public static final Item NETHERITE_SPEAR = registerItem("netherite_spear",
-            new SpearItemTemplate(ToolMaterials.NETHERITE, 7.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ToolMaterials.NETHERITE, 6.0F, new FabricItemSettings()));
     public static final Item NETHERITE_BROADSWORD = registerItem("netherite_broadsword",
             new BroadswordItemTemplate(ToolMaterials.NETHERITE, 8.0F, new FabricItemSettings()));
     public static final Item NETHERITE_GLAIVE = registerItem("netherite_glaive",
@@ -95,7 +95,7 @@ public class ModItems {
     public static final Item THALLASIUM_SABER = registerItem("thallasium_saber",
             new SaberItemTemplate(ModToolMaterial.THALLASIUMCUBE, 4.0F,new FabricItemSettings()));
     public static final Item THALLASIUM_SPEAR = registerItem("thallasium_spear",
-            new SpearItemTemplate(ModToolMaterial.THALLASIUMCUBE, 5.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ModToolMaterial.THALLASIUMCUBE, 4.0F, new FabricItemSettings()));
     public static final Item THALLASIUM_BROADSWORD = registerItem("thallasium_broadsword",
             new BroadswordItemTemplate(ModToolMaterial.THALLASIUMCUBE, 6.0F, new FabricItemSettings()));
     public static final Item THALLASIUM_GLAIVE = registerItem("thallasium_glaive",
@@ -112,7 +112,7 @@ public class ModItems {
     public static final Item TERMINITE_SABER = registerItem("terminite_saber",
             new SaberItemTemplate(ModToolMaterial.TERMINITECUBE, 5.0F,new FabricItemSettings()));
     public static final Item TERMINITE_SPEAR = registerItem("terminite_spear",
-            new SpearItemTemplate(ModToolMaterial.TERMINITECUBE, 6.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ModToolMaterial.TERMINITECUBE, 5.0F, new FabricItemSettings()));
     public static final Item TERMINITE_BROADSWORD = registerItem("terminite_broadsword",
             new BroadswordItemTemplate(ModToolMaterial.TERMINITECUBE, 7.0F, new FabricItemSettings()));
     public static final Item TERMINITE_GLAIVE = registerItem("terminite_glaive",
@@ -129,7 +129,7 @@ public class ModItems {
     public static final Item AETERNIUM_SABER = registerItem("aeternium_saber",
             new SaberItemTemplate(ModToolMaterial.AETERNIUMCUBE, 6.5F,new FabricItemSettings()));
     public static final Item AETERNIUM_SPEAR = registerItem("aeternium_spear",
-            new SpearItemTemplate(ModToolMaterial.AETERNIUMCUBE, 7.5F, new FabricItemSettings()));
+            new SpearItemTemplate(ModToolMaterial.AETERNIUMCUBE, 6.5F, new FabricItemSettings()));
     public static final Item AETERNIUM_BROADSWORD = registerItem("aeternium_broadsword",
             new BroadswordItemTemplate(ModToolMaterial.AETERNIUMCUBE, 8.5F, new FabricItemSettings()));
     public static final Item AETERNIUM_GLAIVE = registerItem("aeternium_glaive",
@@ -147,7 +147,7 @@ public class ModItems {
     public static final Item BEDROCK_SABER = registerItem("bedrock_saber",
             new SaberItemTemplate(ModToolMaterial.BEDROCKREPAIR, 7.0F,new FabricItemSettings()));
     public static final Item BEDROCK_SPEAR = registerItem("bedrock_spear",
-            new SpearItemTemplate(ModToolMaterial.BEDROCKREPAIR, 8.0F, new FabricItemSettings()));
+            new SpearItemTemplate(ModToolMaterial.BEDROCKREPAIR, 7.0F, new FabricItemSettings()));
     public static final Item BEDROCK_BROADSWORD = registerItem("bedrock_broadsword",
             new BroadswordItemTemplate(ModToolMaterial.BEDROCKREPAIR, 9.0F, new FabricItemSettings()));
     public static final Item BEDROCK_GLAIVE = registerItem("bedrock_glaive",

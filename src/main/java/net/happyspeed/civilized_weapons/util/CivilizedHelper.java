@@ -1,5 +1,6 @@
 package net.happyspeed.civilized_weapons.util;
 
+import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;

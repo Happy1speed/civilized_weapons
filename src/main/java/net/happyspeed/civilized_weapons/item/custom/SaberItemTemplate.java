@@ -4,12 +4,17 @@ import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
+import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,6 +25,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +43,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
     public SaberItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
         super(material,attackDamage,-2.0f,1.4f,0.4f,true,4.0f,
                 0.0f,3.0f,0.4f,false, true,
-                true, true, ModSounds.THINSWOOSHSOUND,  2.7f,0.3f, 0.5f,-0.3f, settings);
+                true, true, ModSounds.THINSWOOSHSOUND,  2.8f,0.3f, 0.5f,-0.3f, settings);
         this.weaponSweepDamage = this.getAttackDamage();
     }
     @Override
@@ -68,6 +74,47 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
             }
         }
         return true;
+    }
+    @Override
+    public void activeHit(LivingEntity living) {
+        if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
+            if (this.isSweepingWeapon) {
+                this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.7) {
+                    if (this.canSweepWhileSprinting || (!player.isSprinting() || player.isSneaking())) {
+                        if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                            List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().offset(player.getRotationVector().multiply(this.weaponSweepRange,
+                                    this.weaponSweepRange, this.weaponSweepRange)).expand(this.weaponSweepWidth, this.weaponSweepWidth, this.weaponSweepWidth));
+                            for (LivingEntity livingEntity : list) {
+                                if (!livingEntity.isTeammate(player)) {
+                                    double entityDistance = livingEntity.getPos().distanceTo(player.getPos());
+                                    if (livingEntity == player || player.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() ||
+                                            !livingEntity.isAttackable() || !this.IsInViewingAngle(player, livingEntity) || entityDistance > this.realSweepDistance)
+                                        continue;
+                                    affectSweepEntity(livingEntity, player);
+                                    livingEntity.takeKnockback(this.weaponSweepKnockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
+                                    if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
+                                        player.addCritParticles(livingEntity);
+                                        this.playRandomPitchSound(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, livingEntity, 100, 80, 100);
+                                    }
+                                    else {
+                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage);
+                                    }
+                                }
+                            }
+                            this.sweepSound(player);
+                            player.spawnSweepAttackParticles();
+                        }
+                    }
+                }
+            }
+            if (this.hasSwingSFX && UniversalVars.SWINGSOUNDSENABLED) {
+                if (player.getAttackCooldownProgress(1.0f) > 0.3) {
+                    this.swingSoundEvent(living);
+                }
+            }
+        }
     }
 
     @Override

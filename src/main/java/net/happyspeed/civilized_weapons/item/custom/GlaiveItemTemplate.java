@@ -29,7 +29,7 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
     public GlaiveItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-3.0f,1.6f,0.4f,true,5.0f,
                 0.0f,3.8f,0.35f,true, true,
-                true,true, ModSounds.MEDIUMSWOOSHSOUND,  3.2f, 0.2f, 0.5f, 0.5f, settings);
+                true,true, ModSounds.MEDIUMSWOOSHSOUND,  3.4f, 0.2f, 0.5f, 0.5f, settings);
         this.weaponSweepDamage = this.getAttackDamage() + 1;
     }
     @Override

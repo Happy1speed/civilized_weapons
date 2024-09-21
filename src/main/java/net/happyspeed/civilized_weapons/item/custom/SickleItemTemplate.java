@@ -25,7 +25,7 @@ public class SickleItemTemplate extends AdvancedWeaponTemplate {
     public SickleItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-1.8f,1.1f,0.1f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
-                true,true, ModSounds.THINSWOOSHSOUND, 0.0f,0.0f, 0.3f,-0.4f, settings);
+                true,true, ModSounds.THINSWOOSHSOUND, 0.0f,0.0f, 0.3f,-0.3f, settings);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {

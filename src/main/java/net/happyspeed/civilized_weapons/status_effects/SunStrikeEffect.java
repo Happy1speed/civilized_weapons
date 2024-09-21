@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.minecraft.world.RaycastContext;
+import net.minecraft.world.dimension.DimensionType;
 
 import java.util.Map;
 import java.util.Random;
