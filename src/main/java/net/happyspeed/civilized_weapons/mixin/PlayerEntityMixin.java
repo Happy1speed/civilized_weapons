@@ -11,6 +11,7 @@ import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
 import net.happyspeed.civilized_weapons.item.custom.PanItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
 import net.happyspeed.civilized_weapons.network.PlayerAttackPacket;
 //import net.happyspeed.civilized_weapons.network.PlayerDualHandPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
@@ -23,6 +24,8 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -37,6 +40,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stat;
@@ -83,6 +87,9 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     public ItemStack heldItemLastTick;
 
     @Unique
+    public int ticksSinceHit;
+
+    @Unique
     public ArrayList<ArrowEntity> alreadyhit = new ArrayList<>();
 
     @Shadow
@@ -103,6 +110,12 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
     @Shadow public abstract void useRiptide(int riptideTicks);
+
+    @Shadow public abstract void playSound(SoundEvent event, SoundCategory category, float volume, float pitch);
+
+    @Shadow public abstract PlayerInventory getInventory();
+
+    @Shadow public abstract ItemCooldownManager getItemCooldownManager();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -130,6 +143,11 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Override
     public int civilized_weapons$getTicksSinceLastItemSwap() {
         return this.ticksSinceItemSwap;
+    }
+
+    @Override
+    public int civilized_weapons$getTicksSinceHit() {
+        return this.ticksSinceHit;
     }
 
     @Unique
@@ -217,6 +235,9 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     //Fun is not something one takes into account when balancing the mod, but this does put a smile on my face
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void blockProjectiles(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (!this.getWorld().isClient) {
+            this.ticksSinceHit = 0;
+        }
         if (!this.getWorld().isClient() && this.playerParryBlocking && source.getName().equals("arrow") && (EnchantmentHelper.getLevel(ModEnchantments.DEFENDER, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
             List<ArrowEntity> list = this.getWorld().getNonSpectatingEntities(ArrowEntity.class, this.getBoundingBox().expand(3.0, 4.0, 3.0));
             for (ArrowEntity projectile : list) {
@@ -242,6 +263,21 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         this.heldItemLastTick = this.getMainHandStack();
         if (this.ticksSinceItemSwap < 200) {
             this.ticksSinceItemSwap++;
+        }
+        if (this.ticksSinceHit < 21) {
+            if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getMainHandStack().getItem(), 1.0f) < 0.01) {
+                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.DRAWRUSH, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+                    this.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 20, 5, false, true), this);
+                    playSound(SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.PLAYERS, 1.0f, 2.0f);
+                    for (int i = 0; i < this.getInventory().size(); i++) {
+                        if (this.getInventory().getStack(i).isIn(ModTags.Items.SABER)) {
+                            this.getItemCooldownManager().set(this.getInventory().getStack(i).getItem(), 120);
+                        }
+                    }
+                    this.clearActiveItem();
+                }
+            }
+            this.ticksSinceHit++;
         }
         if (this.getMainHandStack().getItem() != null) {
             if (this.lastSelectedItem != null) {

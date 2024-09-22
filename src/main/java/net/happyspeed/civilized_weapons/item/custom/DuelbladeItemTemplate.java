@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -91,7 +92,7 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
                                         if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
                                             livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
                                             player.addCritParticles(livingEntity);
-                                            this.playRandomPitchSound(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, livingEntity, 100, 80, 100);
+                                            player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                         }
                                         else {
                                             livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
@@ -135,9 +136,10 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
             user.takeKnockback(0.6, MathHelper.sin((user.getYaw() + 180) * ((float) Math.PI / 180)), -MathHelper.cos((user.getYaw() + 180) * ((float) Math.PI / 180)));
             user.setVelocity(user.getVelocity().getX(), 0.3, user.getVelocity().getZ());
             user.velocityModified = true;
+            user.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 120, 3, false, true), user);
             for (int i = 0; i < user.getInventory().size(); i++) {
                 if (user.getInventory().getStack(i).isIn(ModTags.Items.DUELBLADE)) {
-                    user.getItemCooldownManager().set(user.getInventory().getStack(i).getItem(), 100);
+                    user.getItemCooldownManager().set(user.getInventory().getStack(i).getItem(), 160);
                 }
             }
             user.clearActiveItem();

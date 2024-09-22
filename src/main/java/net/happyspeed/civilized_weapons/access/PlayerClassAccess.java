@@ -12,4 +12,5 @@ public interface PlayerClassAccess {
         void civilized_weapons$setAttackBlockTimer();
         void civilized_weapons$setPlayerParryBlocking();
         int civilized_weapons$getTicksSinceLastItemSwap();
+        int civilized_weapons$getTicksSinceHit();
     }

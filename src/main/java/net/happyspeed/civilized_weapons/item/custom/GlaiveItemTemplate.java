@@ -35,6 +35,22 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
+            if ((EnchantmentHelper.getLevel(ModEnchantments.SUNSTRIKE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
+                if (!target.hasStatusEffect(CivilizedWeaponsMod.SUNSTRIKE_EFFECT)) {
+                    target.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.SUNSTRIKE_EFFECT, 100, 7), player);
+                }
+            }
+            if ((EnchantmentHelper.getLevel(ModEnchantments.AERIALSTRIKE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
+
+
+                if (!target.groundCollision) {
+                    target.setVelocity(new Vec3d(target.getVelocity().getX(), -0.5, target.getVelocity().getZ()));
+                    target.velocityModified = true;
+                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(1.0f)));
+                }
+            }
+        }
         return true;
     }
     @Override
@@ -47,10 +63,11 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
         }
         //Aerial Strike Enchant Logic
         if ((EnchantmentHelper.getLevel(ModEnchantments.AERIALSTRIKE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
-            living.setVelocity(new Vec3d(living.getVelocity().getX(), -0.5, living.getVelocity().getZ()));
-            living.velocityModified = true;
+
             if (!living.groundCollision) {
-                living.damage(new DamageSource(ModDamageTypes.of(living.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5f) * player.getAttackCooldownProgress(1.0f)));
+                living.setVelocity(new Vec3d(living.getVelocity().getX(), -0.5, living.getVelocity().getZ()));
+                living.velocityModified = true;
+                living.damage(new DamageSource(ModDamageTypes.of(living.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(1.0f)));
             }
         }
     }

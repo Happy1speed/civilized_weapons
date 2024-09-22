@@ -89,7 +89,7 @@ public class FlailItemTemplate extends AdvancedWeaponTemplate {
         if (attacker instanceof PlayerEntity player) {
             if (!target.isTeammate(player)) {
                 if (EnchantmentHelper.getLevel(ModEnchantments.HUGESWING, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && !attacker.getWorld().isClient() && !target.blockedByShield(new DamageSource(target.getDamageSources().playerAttack(player).getTypeRegistryEntry()))) {
-                    if (target.getHealth() > target.getMaxHealth() * 0.8) {
+                    if (target.getMaxHealth() > 20) {
                         if (!CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE), (float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.5) * player.getAttackCooldownProgress(1.0f));
                             target.takeKnockback(this.weaponKnockbackMulti, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));

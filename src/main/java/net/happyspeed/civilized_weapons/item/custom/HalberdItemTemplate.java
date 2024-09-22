@@ -78,9 +78,10 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
             user.takeKnockback(0.6, MathHelper.sin((user.getYaw() + 180) * ((float) Math.PI / 180)), -MathHelper.cos((user.getYaw() + 180) * ((float) Math.PI / 180)));
             user.setVelocity(user.getVelocity().getX(), 0.3, user.getVelocity().getZ());
             user.velocityModified = true;
+            user.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 120, 3, false, true), user);
             for (int i = 0; i < user.getInventory().size(); i++) {
                 if (user.getInventory().getStack(i).isIn(ModTags.Items.HALBERD)) {
-                    user.getItemCooldownManager().set(user.getInventory().getStack(i).getItem(), 100);
+                    user.getItemCooldownManager().set(user.getInventory().getStack(i).getItem(), 160);
                 }
             }
             user.clearActiveItem();

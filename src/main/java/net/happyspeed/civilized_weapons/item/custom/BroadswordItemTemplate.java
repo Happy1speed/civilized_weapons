@@ -44,22 +44,22 @@ public class BroadswordItemTemplate extends AdvancedWeaponTemplate {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
             //Ground Slam Enchant Logic
-            if (EnchantmentHelper.getLevel(ModEnchantments.GROUNDSLAM, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && !CivilizedHelper.isCriticalHit(player, 0.9f) && player.fallDistance > 2) {
-                List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().expand(3.0, 1.2, 3.0));
+            if (EnchantmentHelper.getLevel(ModEnchantments.GROUNDSLAM, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.wasSprinting) {
+                player.setSprinting(true);
+                List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().expand(3.0, 2.2, 3.0));
                 for (LivingEntity livingEntity : list) {
                     if (!livingEntity.isTeammate(player)) {
                         double entityDistance = livingEntity.getPos().distanceTo(player.getPos());
                         if (livingEntity == player || player.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() ||
-                                !livingEntity.isAttackable() || entityDistance > Math.min(13,Math.max(2, player.fallDistance / 4)))
+                                !livingEntity.isAttackable() || entityDistance > 4)
                             continue;
-                        livingEntity.takeKnockback(Math.min(1.4, Math.max(0.2, player.fallDistance / 5)), player.getX() - livingEntity.getX(), player.getZ() - livingEntity.getZ());
-                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) + Math.min(16,Math.max(2, player.fallDistance / 4)));
+                        livingEntity.takeKnockback(1.0, player.getX() - livingEntity.getX(), player.getZ() - livingEntity.getZ());
+                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) + 2);
                         this.applyGroundSlamParticles(livingEntity);
                     }
                 }
                 player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), (float) UniversalVars.SWINGSOUNDSVOLUME, 0.8f);
                 player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE, player.getSoundCategory(), (float) UniversalVars.SWINGSOUNDSVOLUME, 0.8f);
-                player.fallDistance = 0;
             }
         }
         return true;

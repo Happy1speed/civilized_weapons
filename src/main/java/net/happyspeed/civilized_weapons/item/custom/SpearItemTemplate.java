@@ -59,10 +59,10 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
             if (EnchantmentHelper.getLevel(ModEnchantments.PURSUER, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && this.wasSprinting && !player.isSneaking()) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
                 if (player.hasStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT) && this.prevAttackProgress > 0.7 && player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier() + 1 < 12) {
-                    player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 120, player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier() + 1, false, true), player);
+                    player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 220, player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier() + 1, false, true), player);
                 }
                 else if (player.hasStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT) && this.prevAttackProgress > 0.7 && player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier() + 1 >= 12) {
-                    player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 120, player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier(), false, true), player);
+                    player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 220, player.getStatusEffect(CivilizedWeaponsMod.ADD_SPEED_EFFECT).getAmplifier(), false, true), player);
                 }
                 else {
                     player.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 60, 1, false, true), player);

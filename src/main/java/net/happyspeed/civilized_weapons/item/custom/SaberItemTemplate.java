@@ -19,6 +19,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -42,8 +43,8 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
     Entity lockedtarget;
     public SaberItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
         super(material,attackDamage,-2.0f,1.4f,0.4f,true,4.0f,
-                0.0f,3.0f,0.4f,false, true,
-                true, true, ModSounds.THINSWOOSHSOUND,  2.8f,0.3f, 0.5f,-0.3f, settings);
+                0.0f,3.0f,0.4f,true, true,
+                true, true, ModSounds.THINSWOOSHSOUND,  2.7f,0.3f, 0.5f,-0.3f, settings);
         this.weaponSweepDamage = this.getAttackDamage();
     }
     @Override
@@ -96,7 +97,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                                     if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
                                         livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
                                         player.addCritParticles(livingEntity);
-                                        this.playRandomPitchSound(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, livingEntity, 100, 80, 100);
+                                        player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                     }
                                     else {
                                         livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage);
@@ -115,51 +116,6 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                 }
             }
         }
-    }
-
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.SPEAR;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!(user instanceof PlayerEntity)) {
-            return;
-        }
-        int g = this.getMaxUseTime(stack) - remainingUseTicks;
-        if (g < 15) {
-            return;
-        }
-        if (user instanceof PlayerEntity player) {
-            if (!player.getWorld().isClient() && (EnchantmentHelper.getLevel(ModEnchantments.DRAWRUSH, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
-                if (player.getItemCooldownManager().getCooldownProgress(this.asItem(), 1.0f) == 0.0) {
-                    this.playRandomPitchSound(ModSounds.HEAVYTHICKSWOOSHSOUND, player, 0.7f, 160, 180);
-                    for (int i = 0; i < player.getInventory().size(); i++) {
-                        if (player.getInventory().getStack(i).isIn(ModTags.Items.SABER)) {
-                            player.getItemCooldownManager().set(player.getInventory().getStack(i).getItem(), 300);
-                        }
-                    }
-                    player.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 30, 5, false, true), player);
-                }
-            }
-            player.clearActiveItem();
-        }
-    }
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (EnchantmentHelper.getLevel(ModEnchantments.DRAWRUSH, user.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && user.isSneaking()) {
-            ItemStack itemStack = user.getStackInHand(hand);
-            user.setCurrentHand(hand);
-            return TypedActionResult.consume(itemStack);
-        }
-        ItemStack itemStack = user.getStackInHand(hand);
-        return TypedActionResult.fail(itemStack);
     }
 
     @Override
