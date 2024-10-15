@@ -12,6 +12,7 @@ import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
 import net.happyspeed.civilized_weapons.item.custom.PanItemTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.SpearItemTemplate;
 import net.happyspeed.civilized_weapons.network.PlayerAttackPacket;
 //import net.happyspeed.civilized_weapons.network.PlayerDualHandPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
@@ -35,6 +36,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.EntityAnimationS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.predicate.entity.EntityFlagsPredicate;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -116,6 +118,8 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Shadow public abstract PlayerInventory getInventory();
 
     @Shadow public abstract ItemCooldownManager getItemCooldownManager();
+
+    @Shadow public abstract float getMovementSpeed();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -201,7 +205,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         var offHandHasTwoHanded = false;
         var offHandStack = ((PlayerEntityAccessor) this).getInventory().offHand.get(0);
         var mainHandStack = ((PlayerEntityAccessor) this).getInventory().getMainHandStack();
-        if (mainHandStack.isIn(ModTags.Items.TWOHANDED_ITEM_TAG)) {
+        if (mainHandStack.isIn(ModTags.Items.TWOHANDED_ITEM_TAG) && !(EnchantmentHelper.getLevel(ModEnchantments.LIGHTWEIGHT, mainHandStack) > 0)) {
             if (!offHandStack.isIn(ModTags.Items.ALLOWED_OFFHAND_ITEMS)) {
                 mainHandHasTwoHanded = true;
             }

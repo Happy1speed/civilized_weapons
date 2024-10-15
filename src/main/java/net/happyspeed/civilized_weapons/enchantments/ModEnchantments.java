@@ -30,6 +30,7 @@ public class ModEnchantments {
     public static final Enchantment LOCKED = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "locked"), new LockedEnchantment());
     public static final Enchantment TRUSTWORTHY = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "trustworthy"), new TrustworthyEnchantment());
     public static final Enchantment DEFENDER = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "defender"), new DefenderEnchantment());
+    public static final Enchantment LIGHTWEIGHT = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "lightweight"), new LightweightEnchantment());
 
     private static Enchantment register(String name, Enchantment enchantment) {
         return Registry.register(Registries.ENCHANTMENT, name, enchantment);

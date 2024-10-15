@@ -81,7 +81,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
             if (this.isSweepingWeapon) {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.7) {
+                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.3) {
                     if (this.canSweepWhileSprinting || (!player.isSprinting() || player.isSneaking())) {
                         if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().offset(player.getRotationVector().multiply(this.weaponSweepRange,

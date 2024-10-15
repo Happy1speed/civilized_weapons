@@ -1,6 +1,7 @@
 package net.happyspeed.civilized_weapons.item.custom;
 
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
+import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
@@ -44,7 +45,7 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player && !target.isTeammate(player)) {
-            if (!CivilizedHelper.isCriticalHit(player, 0.9f) && this.wasSprinting && this.prevAttackProgress > 0.4f && !player.isSneaking()) {
+            if (!CivilizedHelper.isCriticalHit(player, 0.9f) && this.prevAttackProgress > 0.5f && !player.isSneaking() && this.wasSprinting) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
                 target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.5f) * this.prevAttackProgress)));
                 player.setSprinting(true);
@@ -52,7 +53,7 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
             //Jousting Enchant Logic
             if (player.hasVehicle() && player.getVehicle() instanceof HorseEntity && EnchantmentHelper.getLevel(ModEnchantments.JOUSTING, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && !player.isSneaking()) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
-                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.5f) * this.prevAttackProgress));
+                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.75f) * this.prevAttackProgress));
                 target.takeKnockback(0.6, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
             }
             //Pursuer Enchant Logic
@@ -69,18 +70,11 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
                 }
             }
             //Charge of Justice Enchant Logic
-            if (EnchantmentHelper.getLevel(ModEnchantments.CHARGEOFJUSTICE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && this.wasSprinting && player.getItemCooldownManager().getCooldownProgress(this, 1.0f) <= 0.01) {
+            if (EnchantmentHelper.getLevel(ModEnchantments.CHARGEOFJUSTICE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && this.wasSprinting) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.7f, 70, 100);
-                this.playRandomPitchSound(SoundEvents.BLOCK_BEACON_DEACTIVATE, target, 1.0f, 60, 70);
-                player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ATTACK_SPEED_EFFECT, 40, 5, false, true), player);
-                target.takeKnockback(0.5, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
-                target.setVelocity(new Vec3d(target.getVelocity().getX(), 0.3, target.getVelocity().getZ()));
-                target.velocityModified = true;
-                for (int i = 0; i < player.getInventory().size(); i++) {
-                    if (player.getInventory().getStack(i).isIn(ModTags.Items.SPEAR)) {
-                        player.getItemCooldownManager().set(player.getInventory().getStack(i).getItem(), 800);
-                    }
-                }
+                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), 2);
+                player.setVelocity(player.getVelocity().getX() + player.getYaw() * ((float) Math.PI / 180) * 0.4, player.getVelocity().getY(),  player.getVelocity().getZ() - MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)) * 0.4);
+                player.velocityModified = true;
             }
 
         }

@@ -1,15 +1,16 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.SickleItemTemplate;
-import net.happyspeed.civilized_weapons.item.custom.SpearItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.GlaiveItemTemplate;
+import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class ChargeofjusticeEnchantment extends Enchantment {
-	public ChargeofjusticeEnchantment() {
+public class LightweightEnchantment extends Enchantment {
+	public LightweightEnchantment() {
 		super(Rarity.UNCOMMON, EnchantmentTarget.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
 	}
 
@@ -24,6 +25,10 @@ public class ChargeofjusticeEnchantment extends Enchantment {
 	}
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem().asItem() instanceof SpearItemTemplate;
+		return stack.isIn(ModTags.Items.TWOHANDED_ITEM_TAG);
+	}
+	@Override
+	public float getAttackDamage(int level, EntityGroup group) {
+		return -1;
 	}
 }
