@@ -53,7 +53,7 @@ public class SunStrikeEffect extends StatusEffect {
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (!entity.getWorld().isClient()) {
-            if (entity.getWorld().getLightLevel(LightType.SKY, entity.getBlockPos()) > 12 && entity.getWorld().getAmbientDarkness() < 6) {
+            if (entity.getWorld().getLightLevel(LightType.SKY, entity.getBlockPos()) > 12 && entity.getWorld().getAmbientDarkness() < 6 || entity.getWorld().getDimension().ultrawarm()) {
                 Random random = new Random();
                 float pitch = random.ints(180, 200).findFirst().getAsInt();
                 pitch = pitch / 100;
@@ -90,7 +90,7 @@ public class SunStrikeEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (!entity.getWorld().isClient()) {
-            if (entity.getWorld().getLightLevel(LightType.SKY, entity.getBlockPos()) <= 12 || entity.getWorld().getAmbientDarkness() > 5) {
+            if ((entity.getWorld().getLightLevel(LightType.SKY, entity.getBlockPos()) <= 12 || entity.getWorld().getAmbientDarkness() > 5) && !entity.getWorld().getDimension().ultrawarm()) {
                 entity.removeStatusEffect(this);
             }
         }

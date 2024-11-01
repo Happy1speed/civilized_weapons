@@ -58,7 +58,12 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
         //Sunstrike Enchant Logic
         if ((EnchantmentHelper.getLevel(ModEnchantments.SUNSTRIKE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
             if (!living.hasStatusEffect(CivilizedWeaponsMod.SUNSTRIKE_EFFECT)) {
-                living.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.SUNSTRIKE_EFFECT, 100, 7), player);
+                if (living instanceof PlayerEntity) {
+                    living.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.SUNSTRIKE_EFFECT, 100, 5), player);
+                }
+                else {
+                    living.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.SUNSTRIKE_EFFECT, 40, 6), player);
+                }
             }
         }
         //Aerial Strike Enchant Logic

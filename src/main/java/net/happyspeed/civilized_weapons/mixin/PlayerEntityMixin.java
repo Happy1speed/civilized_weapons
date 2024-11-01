@@ -1,57 +1,33 @@
 package net.happyspeed.civilized_weapons.mixin;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.mojang.authlib.GameProfile;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
-import net.happyspeed.civilized_weapons.item.custom.PanItemTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
-import net.happyspeed.civilized_weapons.item.custom.SpearItemTemplate;
-import net.happyspeed.civilized_weapons.network.PlayerAttackPacket;
 //import net.happyspeed.civilized_weapons.network.PlayerDualHandPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
 import net.happyspeed.civilized_weapons.util.ModTags;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.ItemCooldownManager;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.EntityAnimationS2CPacket;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityFlagsPredicate;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stat;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -63,7 +39,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import static net.minecraft.entity.EquipmentSlot.OFFHAND;
 
@@ -270,7 +245,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         }
         if (this.ticksSinceHit < 21) {
             if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getMainHandStack().getItem(), 1.0f) < 0.01) {
-                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.DRAWRUSH, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
                     this.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 20, 5, false, true), this);
                     playSound(SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.PLAYERS, 1.0f, 2.0f);
                     for (int i = 0; i < this.getInventory().size(); i++) {

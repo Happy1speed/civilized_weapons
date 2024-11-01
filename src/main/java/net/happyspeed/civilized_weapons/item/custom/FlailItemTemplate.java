@@ -58,16 +58,8 @@ public class FlailItemTemplate extends AdvancedWeaponTemplate {
                                     livingEntity.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_WEAKNESS_EFFECT, 100, 2), player);
                                 }
                             }
-                            if (EnchantmentHelper.getLevel(ModEnchantments.AGAINSTODDS, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
-                                if (damagestack + 1 < 13) {
-                                    damagestack++;
-                                }
-                            }
                         }
                     }
-                }
-                if (EnchantmentHelper.getLevel(ModEnchantments.AGAINSTODDS, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && damagestack > 2) {
-                    player.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 120, damagestack, false, true), player);
                 }
             }
             if (EnchantmentHelper.getLevel(ModEnchantments.HASTY, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && !target.isTeammate(player)) {

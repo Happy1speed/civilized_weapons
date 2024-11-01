@@ -1,13 +1,13 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.FlailItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class AgainstoddsEnchantment extends Enchantment {
-	public AgainstoddsEnchantment() {
+public class RhythmEnchantment extends Enchantment {
+	public RhythmEnchantment() {
 		super(Rarity.UNCOMMON, EnchantmentTarget.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
 	}
 
@@ -22,6 +22,6 @@ public class AgainstoddsEnchantment extends Enchantment {
 	}
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem().asItem() instanceof FlailItemTemplate;
+		return stack.getItem().asItem() instanceof SaberItemTemplate;
 	}
 }

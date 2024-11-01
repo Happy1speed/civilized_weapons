@@ -69,13 +69,6 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
                     player.addStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_SPEED_EFFECT, 60, 1, false, true), player);
                 }
             }
-            //Charge of Justice Enchant Logic
-            if (EnchantmentHelper.getLevel(ModEnchantments.CHARGEOFJUSTICE, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && this.wasSprinting) {
-                this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.7f, 70, 100);
-                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), 2);
-                player.setVelocity(player.getVelocity().getX() + player.getYaw() * ((float) Math.PI / 180) * 0.4, player.getVelocity().getY(),  player.getVelocity().getZ() - MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)) * 0.4);
-                player.velocityModified = true;
-            }
 
         }
         return true;

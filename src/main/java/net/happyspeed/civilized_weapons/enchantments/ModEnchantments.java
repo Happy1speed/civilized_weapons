@@ -19,11 +19,10 @@ public class ModEnchantments {
     public static final Enchantment CHARGEOFJUSTICE = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "chargeofjustice"), new ChargeofjusticeEnchantment());
     public static final Enchantment ASCEND = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "ascend"), new AscendEnchantment());
     public static final Enchantment WHISPERINGSTARS = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "whisperingstars"), new WhisperingstarsEnchantment());
-    public static final Enchantment DRAWRUSH = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "drawrush"), new DrawrushEnchantment());
+    public static final Enchantment RHYTHM = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "rhythm"), new RhythmEnchantment());
     public static final Enchantment AERIALSTRIKE = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "aerialstrike"), new AerialstrikeEnchantment());
     public static final Enchantment FIRESPIN = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "firespin"), new FirespinEnchantment());
     public static final Enchantment FOOLISH = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "foolish"), new FoolishEnchantment());
-    public static final Enchantment AGAINSTODDS = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "againstodds"), new AgainstoddsEnchantment());
     public static final Enchantment HASTY = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "hasty"), new HastyEnchantment());
     public static final Enchantment EXECUTION = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "execution"), new ExecutionEnchantment());
     public static final Enchantment HUGESWING = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "hugeswing"), new HugeswingEnchantment());
@@ -31,6 +30,7 @@ public class ModEnchantments {
     public static final Enchantment TRUSTWORTHY = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "trustworthy"), new TrustworthyEnchantment());
     public static final Enchantment DEFENDER = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "defender"), new DefenderEnchantment());
     public static final Enchantment LIGHTWEIGHT = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "lightweight"), new LightweightEnchantment());
+    public static final Enchantment MULTITARGET = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "multitarget"), new MultitargetEnchantment());
 
     private static Enchantment register(String name, Enchantment enchantment) {
         return Registry.register(Registries.ENCHANTMENT, name, enchantment);
