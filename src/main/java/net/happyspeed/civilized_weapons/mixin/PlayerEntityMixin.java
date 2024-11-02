@@ -185,7 +185,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
                 mainHandHasTwoHanded = true;
             }
         }
-        offHandHasTwoHanded = offHandStack.isIn(ModTags.Items.TWOHANDED_ITEM_TAG);
+        offHandHasTwoHanded = offHandStack.isIn(ModTags.Items.TWOHANDED_ITEM_TAG) && !(EnchantmentHelper.getLevel(ModEnchantments.LIGHTWEIGHT, offHandStack) > 0);
 
         if (slot == OFFHAND) {
             if (mainHandHasTwoHanded || offHandHasTwoHanded) {
