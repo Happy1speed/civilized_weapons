@@ -12,6 +12,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,7 +46,12 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
             if (!target.isTeammate(player)) {
                 if (this.prevAttackProgress > 0.9 && player.fallDistance > 0.0f && !player.isOnGround() && !player.isClimbing() && !player.isTouchingWater() && !player.hasStatusEffect(StatusEffects.BLINDNESS) && !player.hasVehicle()) {
-                    target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f);
+                    if (!CivilizedWeaponsMod.armortohealthloaded) {
+                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f);
+                    }
+                    else {
+                        target.damage(ModDamageTypes.of(target.getWorld(), DamageTypes.MOB_ATTACK), (float) (Math.min(target.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.02, 5)));
+                    }
                     if (EnchantmentHelper.getLevel(ModEnchantments.EXECUTION, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && player.fallDistance > 4) {
                         target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) ((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * Math.min(2.5, player.fallDistance * 0.1)));
                     }

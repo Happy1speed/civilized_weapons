@@ -49,6 +49,8 @@ public class CivilizedWeaponsMod implements ModInitializer {
 
 	public static boolean commonEnchantmentDescriptionsModLoaded = false;
 
+	public static boolean armortohealthloaded = false;
+
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Hello There!");
@@ -65,6 +67,10 @@ public class CivilizedWeaponsMod implements ModInitializer {
 
 		if (FabricLoader.getInstance().isModLoaded("spectrum")) {
 			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(CivilizedWeaponsMod.MOD_ID, "spectrum_recipes"), (ModContainer) modContainer.get(), Text.translatable("pack.civilized_weapons.spectrum_compat_text"), ResourcePackActivationType.ALWAYS_ENABLED);
+		}
+
+		if (FabricLoader.getInstance().isModLoaded("armortohealth")) {
+			armortohealthloaded = true;
 		}
 
 		ResourceManagerHelper.registerBuiltinResourcePack(

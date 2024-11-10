@@ -14,6 +14,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,7 +54,12 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
             //Jousting Enchant Logic
             if (player.hasVehicle() && player.getVehicle() instanceof HorseEntity && EnchantmentHelper.getLevel(ModEnchantments.JOUSTING, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && !player.isSneaking()) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
-                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.75f) * this.prevAttackProgress));
+                if (!(CivilizedWeaponsMod.armortohealthloaded)) {
+                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.75f) * this.prevAttackProgress));
+                }
+                else {
+                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), DamageTypes.MOB_ATTACK).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)) * this.prevAttackProgress));
+                }
                 target.takeKnockback(0.6, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
             }
             //Pursuer Enchant Logic
