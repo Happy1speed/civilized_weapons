@@ -50,7 +50,8 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
                         target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f);
                     }
                     else {
-                        target.damage(ModDamageTypes.of(target.getWorld(), DamageTypes.MOB_ATTACK), (float) (Math.min(target.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.02, 5)));
+                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) 2);
+                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) (Math.min((target.getAttributeValue(EntityAttributes.GENERIC_ARMOR) + target.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) * 0.8, this.getAttackDamage() - 2)));
                     }
                     if (EnchantmentHelper.getLevel(ModEnchantments.EXECUTION, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && player.fallDistance > 4) {
                         target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) ((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * Math.min(2.5, player.fallDistance * 0.1)));

@@ -71,6 +71,7 @@ public class CivilizedWeaponsMod implements ModInitializer {
 
 		if (FabricLoader.getInstance().isModLoaded("armortohealth")) {
 			armortohealthloaded = true;
+			CivilizedWeaponsMod.LOGGER.info("LOADED");
 		}
 
 		ResourceManagerHelper.registerBuiltinResourcePack(
