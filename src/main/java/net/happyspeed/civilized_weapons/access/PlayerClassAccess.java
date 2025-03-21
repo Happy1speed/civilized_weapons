@@ -13,4 +13,8 @@ public interface PlayerClassAccess {
         void civilized_weapons$setPlayerParryBlocking();
         int civilized_weapons$getTicksSinceLastItemSwap();
         int civilized_weapons$getTicksSinceHit();
+        Hand civilized_weapons$getLastAttackHand();
+        Hand civilized_weapons$getLastAttackHandInverse();
+        void civilized_weapons$setLastAttackHand(Hand hand);
+        void civilized_weapons$onSwapDualHands(Hand hand);
     }

@@ -6,24 +6,32 @@ import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
-//import net.happyspeed.civilized_weapons.network.PlayerDualHandPacket;
+import net.happyspeed.civilized_weapons.network.S2CHandSyncPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
+import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModTags;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.ItemCooldownManager;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stat;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -36,10 +44,10 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
+import static net.happyspeed.civilized_weapons.CivilizedWeaponsMod.dualWieldingSpeedModifierId;
+import static net.minecraft.entity.EquipmentSlot.MAINHAND;
 import static net.minecraft.entity.EquipmentSlot.OFFHAND;
 
 @Mixin(value = PlayerEntity.class, priority = 501)
@@ -86,8 +94,6 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
 
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
-    @Shadow public abstract void useRiptide(int riptideTicks);
-
     @Shadow public abstract void playSound(SoundEvent event, SoundCategory category, float volume, float pitch);
 
     @Shadow public abstract PlayerInventory getInventory();
@@ -95,6 +101,16 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Shadow public abstract ItemCooldownManager getItemCooldownManager();
 
     @Shadow public abstract float getMovementSpeed();
+
+    @Shadow public abstract boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource);
+
+    @Shadow public abstract float getLuck();
+
+    @Shadow public abstract PlayerAbilities getAbilities();
+
+    @Unique public Hand lastAttackHand = Hand.MAIN_HAND;
+
+    @Unique public boolean hasSwappedThisTick = false;
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -197,7 +213,16 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
 
     @Inject(method = "attack", at = @At("HEAD"))
     public void recordPrevAttackStrength(Entity target, CallbackInfo ci) {
-        this.civilized_weapons$swingingDetected(this);
+        if (!this.getWorld().isClient()) {
+            this.civilized_weapons$swingingDetected(this);
+            if (!this.hasSwappedThisTick) {
+                if (this.lastAttackHand == Hand.MAIN_HAND) {
+                    this.civilized_weapons$onSwapDualHands(Hand.OFF_HAND);
+                } else {
+                    this.civilized_weapons$onSwapDualHands(Hand.MAIN_HAND);
+                }
+            }
+        }
         this.playerParryBlocking = false;
         this.attackBlockTimer = 5;
         this.prevAttackStrength = this.getAttackCooldownProgress(1.0f);
@@ -217,7 +242,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         if (!this.getWorld().isClient) {
             this.ticksSinceHit = 0;
         }
-        if (!this.getWorld().isClient() && this.playerParryBlocking && source.getName().equals("arrow") && (EnchantmentHelper.getLevel(ModEnchantments.DEFENDER, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0)) {
+        if (!this.getWorld().isClient() && this.playerParryBlocking && source.getName().equals("arrow") && (EnchantmentHelper.getLevel(ModEnchantments.DEFENDER, this.getEquippedStack(MAINHAND)) > 0)) {
             List<ArrowEntity> list = this.getWorld().getNonSpectatingEntities(ArrowEntity.class, this.getBoundingBox().expand(3.0, 4.0, 3.0));
             for (ArrowEntity projectile : list) {
                 Vec3d projectilePosition = new Vec3d(projectile.getX(), projectile.getY(), projectile.getZ());
@@ -239,13 +264,15 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void testForItemSwitch(CallbackInfo ci) {
+        updateDualWieldingSpeedBoost();
+
         this.heldItemLastTick = this.getMainHandStack();
         if (this.ticksSinceItemSwap < 200) {
             this.ticksSinceItemSwap++;
         }
         if (this.ticksSinceHit < 21) {
             if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getMainHandStack().getItem(), 1.0f) < 0.01) {
-                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getEquippedStack(MAINHAND)) > 0) {
                     this.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 20, 5, false, true), this);
                     playSound(SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.PLAYERS, 1.0f, 2.0f);
                     for (int i = 0; i < this.getInventory().size(); i++) {
@@ -281,7 +308,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         }
         if (this.getMainHandStack().getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
             advancedWeaponTemplate.ticker(this);
-            if (EnchantmentHelper.getLevel(ModEnchantments.TRUSTWORTHY, this.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+            if (EnchantmentHelper.getLevel(ModEnchantments.TRUSTWORTHY, this.getEquippedStack(MAINHAND)) > 0) {
                 advancedWeaponTemplate.tickTrustEnchant(this);
             }
         }
@@ -296,28 +323,113 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
             return 1.5f;
         }
     }
-//    @Redirect(method = "attack", at = @At(value = "INVOKE",
-//            target = "Lnet/minecraft/entity/player/PlayerEntity;setStackInHand(Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;)V"))
-//    public void setStackInHand_Redirect(PlayerEntity instance, Hand handArg, ItemStack itemStack) {
-//        // DUAL WIELDING LOGIC
-//        // In case item got destroyed due to durability loss
-//        // We empty the correct hand
-//        if (comboCount < 0) {
-//            // Vanilla behaviour
-//            instance.setStackInHand(handArg, itemStack);
-//        }
-//        // `handArg` argument is always `MAIN`, we can ignore it
-//        AttackHand hand = lastAttack;
-//        if (hand == null) {
-//            hand = PlayerAttackHelper.getCurrentAttack(instance, comboCount);
-//        }
-//        if (hand == null) {
-//            instance.setStackInHand(handArg, itemStack);
-//            return;
-//        }
-//        var redirectedHand = hand.isOffHand() ? Hand.OFF_HAND : Hand.MAIN_HAND;
-//        instance.setStackInHand(redirectedHand, itemStack);
-//    }
+
+    @Inject(method = "tick", at = @At(value = "TAIL"))
+    public void tailTick(CallbackInfo ci) {
+        this.hasSwappedThisTick = false;
+    }
+
+
+
+    @Unique
+    private void updateDualWieldingSpeedBoost() {
+
+        var player = ((PlayerEntity) ((Object) this));
+
+        var isDuel = CivilizedHelper.isDualWielding(player);
+
+
+        EntityAttributeModifier entityAttributeModifier = new EntityAttributeModifier(dualWieldingSpeedModifierId, EntityAttributes.GENERIC_ATTACK_SPEED.getTranslationKey(), 0.5, EntityAttributeModifier.Operation.MULTIPLY_BASE);
+        EntityAttributeInstance entityAttributeInstance = this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
+
+        if (entityAttributeInstance != null) {
+            if (isDuel && !entityAttributeInstance.hasModifier(entityAttributeModifier)) {
+                entityAttributeInstance.addTemporaryModifier(entityAttributeModifier);
+            }
+            else if (!isDuel && entityAttributeInstance.hasModifier(entityAttributeModifier)) {
+                entityAttributeInstance.removeModifier(entityAttributeModifier);
+            }
+        }
+    }
+
+    @Inject(method = "attack", at = @At(value = "HEAD"))
+    public void hookforHandSwitch(Entity target, CallbackInfo ci) {
+        if (this.heldItemLastTick != null && !this.getWorld().isClient()) {
+            if (this.getMainHandStack().getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
+                advancedWeaponTemplate.activeHit(this);
+            }
+        }
+        this.attackBlockTimer = 0;
+        this.playerParryBlocking = true;
+    }
+
+    @ModifyArg(method = "attack", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;"),
+            index = 0)
+    public Hand getHand(Hand hand2) {
+        var player = ((PlayerEntity) ((Object)this));
+        return ((PlayerClassAccess) player).civilized_weapons$getLastAttackHandInverse();
+    }
+
+    @Redirect(method = "attack", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;getMainHandStack()Lnet/minecraft/item/ItemStack;"))
+    public ItemStack getMainHandStack_Redirect(PlayerEntity instance) {
+        // DUAL WIELDING LOGIC
+        // Here we return the off-hand stack as fake main-hand, purpose:
+        // - Getting enchants
+        // - Getting itemstack to be damaged
+
+        return this.getStackInHand(((PlayerClassAccess) instance).civilized_weapons$getLastAttackHandInverse());
+    }
+
+
+
+    @Redirect(method = "attack", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;setStackInHand(Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;)V"))
+    public void setStackInHand_Redirect(PlayerEntity instance, Hand handArg, ItemStack itemStack) {
+        // DUAL WIELDING LOGIC
+        // In case item got destroyed due to durability loss
+        // We empty the correct hand
+
+        Hand hand = ((PlayerClassAccess) instance).civilized_weapons$getLastAttackHandInverse();
+        if (hand == null) {
+            instance.setStackInHand(handArg, itemStack);
+            return;
+        }
+        instance.setStackInHand(hand, itemStack);
+    }
+
+    @Unique
+    public void civilized_weapons$onSwapDualHands(Hand hand) {
+        if (!this.hasSwappedThisTick) {
+            this.civilized_weapons$setLastAttackHand(hand);
+            this.preferredHand = hand;
+            this.hasSwappedThisTick = true;
+        }
+    }
+
+    @Unique
+    public Hand civilized_weapons$getLastAttackHand() {
+        return this.lastAttackHand;
+    }
+
+    @Unique
+    public void civilized_weapons$setLastAttackHand(Hand hand) {
+        if (!this.getWorld().isClient()) {
+            this.lastAttackHand = hand;
+            this.activeItemStack = this.getStackInHand(hand);
+            var player = ((PlayerEntity) ((Object) this));
+            if (player instanceof ServerPlayerEntity serverPlayerEntity) {
+                S2CHandSyncPacket.send(serverPlayerEntity, this.getId(), this.lastAttackHand == Hand.MAIN_HAND);
+            }
+        }
+    }
+
+    @Unique
+    public Hand civilized_weapons$getLastAttackHandInverse() {
+        return this.lastAttackHand;
+    }
 
 //    @Override
 //    public float getHandSwingProgress(float tickDelta) {

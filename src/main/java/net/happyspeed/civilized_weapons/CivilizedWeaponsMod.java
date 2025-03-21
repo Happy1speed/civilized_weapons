@@ -1,7 +1,9 @@
 package net.happyspeed.civilized_weapons;
 
+import com.google.common.collect.Multimap;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -10,8 +12,11 @@ import net.fabricmc.loader.api.ModContainer;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.network.PlayerAttackPacket;
 //import net.happyspeed.civilized_weapons.network.PlayerDualHandPacket;
+import net.happyspeed.civilized_weapons.network.PlayerHandSwapPacket;
+import net.happyspeed.civilized_weapons.network.S2CHandSyncPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
 import net.happyspeed.civilized_weapons.status_effects.*;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
@@ -36,6 +41,8 @@ public class CivilizedWeaponsMod implements ModInitializer {
 
 	public static final UUID CIVIL_ATTACK_RANGE_MODIFIER_ID = UUID.fromString("51770b68-a4e4-4084-ad67-40d52a331a21");
 
+	public static final UUID dualWieldingSpeedModifierId = UUID.fromString("6b364332-0dc4-11ed-861d-0242ac120002");
+
 	public static StatusEffect ATTACK_SPEED_EFFECT = new AttackSpeedEffect();
 	public static StatusEffect ATTACK_SPEED_SLOW_EFFECT = new AttackSpeedSlowEffect();
 	public static StatusEffect ADD_WEAKNESS_EFFECT = new AddWeaknessEffect();
@@ -50,6 +57,10 @@ public class CivilizedWeaponsMod implements ModInitializer {
 	public static boolean commonEnchantmentDescriptionsModLoaded = false;
 
 	public static boolean armortohealthloaded = false;
+
+	public static Identifier id(String value) {
+		return new Identifier(MOD_ID, value);
+	}
 
 	@Override
 	public void onInitialize() {
@@ -71,7 +82,6 @@ public class CivilizedWeaponsMod implements ModInitializer {
 
 		if (FabricLoader.getInstance().isModLoaded("armortohealth")) {
 			armortohealthloaded = true;
-			CivilizedWeaponsMod.LOGGER.info("LOADED");
 		}
 
 		ResourceManagerHelper.registerBuiltinResourcePack(
@@ -83,6 +93,7 @@ public class CivilizedWeaponsMod implements ModInitializer {
 		ModSounds.registerSounds();
 
 		PlayerAttackPacket.init();
+		PlayerHandSwapPacket.init();
 
 		ModEnchantments.init();
 		Registry.register(Registries.STATUS_EFFECT, new Identifier("civilized_weapons", "attack_speed_effect"), ATTACK_SPEED_EFFECT).addAttributeModifier(EntityAttributes.GENERIC_ATTACK_SPEED, "d9423981-31f9-434d-a00a-4e1ac0732767", 0.1f, EntityAttributeModifier.Operation.ADDITION);
