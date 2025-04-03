@@ -74,6 +74,7 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Unique
     public int ticksSinceHit;
 
+
     @Unique
     public ArrayList<ArrowEntity> alreadyhit = new ArrayList<>();
 
