@@ -23,7 +23,6 @@ public class ModItemGroups {
                         entries.add(ModItems.IRON_SICKLE);
                         entries.add(ModItems.IRON_DUELBLADE);
                         entries.add(ModItems.IRON_SABER);
-                        entries.add(ModItems.IRON_FLAIL);
                         entries.add(ModItems.DIAMOND_HALBERD);
                         entries.add(ModItems.DIAMOND_GLAIVE);
                         entries.add(ModItems.DIAMOND_SPEAR);
@@ -31,7 +30,6 @@ public class ModItemGroups {
                         entries.add(ModItems.DIAMOND_SICKLE);
                         entries.add(ModItems.DIAMOND_DUELBLADE);
                         entries.add(ModItems.DIAMOND_SABER);
-                        entries.add(ModItems.DIAMOND_FLAIL);
                         entries.add(ModItems.GOLDEN_HALBERD);
                         entries.add(ModItems.GOLDEN_GLAIVE);
                         entries.add(ModItems.GOLDEN_SPEAR);
@@ -39,7 +37,6 @@ public class ModItemGroups {
                         entries.add(ModItems.GOLDEN_SICKLE);
                         entries.add(ModItems.GOLDEN_DUELBLADE);
                         entries.add(ModItems.GOLDEN_SABER);
-                        entries.add(ModItems.GOLDEN_FLAIL);
                         entries.add(ModItems.NETHERITE_HALBERD);
                         entries.add(ModItems.NETHERITE_GLAIVE);
                         entries.add(ModItems.NETHERITE_SPEAR);
@@ -47,7 +44,6 @@ public class ModItemGroups {
                         entries.add(ModItems.NETHERITE_SICKLE);
                         entries.add(ModItems.NETHERITE_DUELBLADE);
                         entries.add(ModItems.NETHERITE_SABER);
-                        entries.add(ModItems.NETHERITE_FLAIL);
                         entries.add(ModItems.THALLASIUM_BROADSWORD);
                         entries.add(ModItems.THALLASIUM_DUELBLADE);
                         entries.add(ModItems.THALLASIUM_HALBERD);
@@ -55,7 +51,6 @@ public class ModItemGroups {
                         entries.add(ModItems.THALLASIUM_SPEAR);
                         entries.add(ModItems.THALLASIUM_GLAIVE);
                         entries.add(ModItems.THALLASIUM_SABER);
-                        entries.add(ModItems.THALLASIUM_FLAIL);
                         entries.add(ModItems.TERMINITE_BROADSWORD);
                         entries.add(ModItems.TERMINITE_DUELBLADE);
                         entries.add(ModItems.TERMINITE_HALBERD);
@@ -63,7 +58,6 @@ public class ModItemGroups {
                         entries.add(ModItems.TERMINITE_SPEAR);
                         entries.add(ModItems.TERMINITE_GLAIVE);
                         entries.add(ModItems.TERMINITE_SABER);
-                        entries.add(ModItems.TERMINITE_FLAIL);
                         entries.add(ModItems.AETERNIUM_BROADSWORD);
                         entries.add(ModItems.AETERNIUM_DUELBLADE);
                         entries.add(ModItems.AETERNIUM_HALBERD);
@@ -71,11 +65,9 @@ public class ModItemGroups {
                         entries.add(ModItems.AETERNIUM_SPEAR);
                         entries.add(ModItems.AETERNIUM_GLAIVE);
                         entries.add(ModItems.AETERNIUM_SABER);
-                        entries.add(ModItems.AETERNIUM_FLAIL);
                         entries.add(ModItems.BEDROCK_BROADSWORD);
                         entries.add(ModItems.BEDROCK_HALBERD);
                         entries.add(ModItems.BEDROCK_GLAIVE);
-                        entries.add(ModItems.BEDROCK_FLAIL);
                         entries.add(ModItems.BEDROCK_SPEAR);
                         entries.add(ModItems.BEDROCK_DUELBLADE);
                         entries.add(ModItems.BEDROCK_SICKLE);

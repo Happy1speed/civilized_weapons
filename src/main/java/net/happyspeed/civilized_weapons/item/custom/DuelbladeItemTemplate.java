@@ -43,8 +43,8 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
     float tempsweepknockback = 0.0f;
     public DuelbladeItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-2.6f,1.4f,0.6f,true,6.0f,
-                0.0f,4.0f,0.35f,true, true,
-                true,true, ModSounds.THINSWOOSHSOUND,  3.0f, 0.1f, 0.5f, 0.2f, settings);
+                0.0f,4.0f,0.3f,true, true,
+                true,true, ModSounds.THINSWOOSHSOUND,  3.0f, 0.4f, 0.4f, 0.2f, settings);
         this.weaponSweepDamage = this.getAttackDamage() + 1;
     }
     @Override
@@ -85,37 +85,48 @@ public class DuelbladeItemTemplate extends AdvancedWeaponTemplate {
                                     if (livingEntity == player || player.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() ||
                                             !livingEntity.isAttackable() || entityDistance > this.realSweepDistance)
                                         continue;
-                                    if (!this.IsInViewingAngle(player, livingEntity) && !player.isSneaking()) {
-                                        continue;
-                                    }
                                     if (player.canSee(livingEntity)) {
-                                        if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                            livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
-                                            player.addCritParticles(livingEntity);
-                                            player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                                        }
-                                        else {
-                                            livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
-                                        }
-                                        if (!player.isSneaking()) {
-                                            livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
-                                            livingEntity.velocityModified = true;
-                                        }
-                                        else {
-                                            if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
-                                                livingEntity.setVelocity(new Vec3d(livingEntity.getVelocity().getX(), 0.7, livingEntity.getVelocity().getZ()));
+                                        if (player.isSneaking()) {
+                                            if (this.IsInBehindViewingAngle(player, livingEntity)) {
+                                                if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * this.weaponCriticalMultiplier) * 1.5f) * player.getAttackCooldownProgress(1.0f));
+                                                    player.addCritParticles(livingEntity);
+                                                    player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
+                                                } else {
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * 1.5f) * player.getAttackCooldownProgress(1.0f));
+                                                }
+                                                if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+                                                    livingEntity.setVelocity(new Vec3d(livingEntity.getVelocity().getX(), 0.7, livingEntity.getVelocity().getZ()));
+                                                    livingEntity.velocityModified = true;
+                                                }
+                                                if (EnchantmentHelper.getLevel(ModEnchantments.FIRESPIN, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
+                                                    livingEntity.setOnFireFor(2);
+                                                }
+                                                livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                                                 livingEntity.velocityModified = true;
                                             }
-                                            if (EnchantmentHelper.getLevel(ModEnchantments.FIRESPIN, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
-                                                livingEntity.setOnFireFor(2);
+                                        }
+                                        else {
+                                            if (this.IsInViewingAngle(player, livingEntity)) {
+                                                if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
+                                                    player.addCritParticles(livingEntity);
+                                                    player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
+                                                } else {
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
+                                                }
+                                                livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
+                                                livingEntity.velocityModified = true;
                                             }
                                         }
                                     }
                                 }
                             }
                             this.playRandomPitchSound(this.tempsweepSound, player, 0.5f, this.soundpitchmin, this.soundpitchmax);
-                            player.spawnSweepAttackParticles();
-                            if (player.isSneaking()) {
+                            if (!player.isSneaking()) {
+                                player.spawnSweepAttackParticles();
+                            }
+                            else {
                                 this.spawnBackSweepAttackParticles(player);
                             }
                         }

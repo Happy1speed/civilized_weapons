@@ -188,4 +188,14 @@ public class AdvancedWeaponTemplate extends ToolItem {
         }
         return false;
     }
+
+    boolean IsInBehindViewingAngle(LivingEntity living1, LivingEntity living2) {
+        Vec3d living1LookDir = living1.getRotationVec(1.0f);
+        Vec3d living2Dir = (living2.getPos().subtract(living1.getPos())).normalize();
+        double angle = living1LookDir.dotProduct(living2Dir);
+        if (angle < this.sweepAngle) {
+            return living1.canSee(living2);
+        }
+        return false;
+    }
 }
