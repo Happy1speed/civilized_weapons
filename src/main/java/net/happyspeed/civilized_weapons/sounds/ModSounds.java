@@ -15,7 +15,6 @@ public class ModSounds {
     public static final SoundEvent LIGHTSWOOSHSOUND  = registerSoundEvent("light_swoosh_sound");
     public static final SoundEvent SPINSWOOSHSOUND  = registerSoundEvent("spin_swoosh_sound");
     public static final SoundEvent SPEARHITSOUND  = registerSoundEvent("spear_hit_sound");
-    public static final SoundEvent FLAILSWINGSOUND  = registerSoundEvent("flail_swing_sound");
 
     private static SoundEvent registerSoundEvent(String name) {
         Identifier id = new Identifier(CivilizedWeaponsMod.MOD_ID, name);

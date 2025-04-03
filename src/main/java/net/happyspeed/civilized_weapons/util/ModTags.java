@@ -30,8 +30,6 @@ public class ModTags {
                 createTag("duelblade");
         public static final TagKey<Item> SPEAR =
                 createTag("spear");
-        public static final TagKey<Item> FLAIL =
-                createTag("flail");
         public static final TagKey<Item> HALBERD =
                 createTag("halberd");
         public static final TagKey<Item> PAN =

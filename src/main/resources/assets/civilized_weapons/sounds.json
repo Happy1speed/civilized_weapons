@@ -51,14 +51,6 @@
     "subtitle": "sounds.civilized_weapons.spear_hit_sound",
     "sounds": [
       "civilized_weapons:spear_hit"
-
-    ]
-  },
-  "flail_swing_sound": {
-    "subtitle": "sounds.civilized_weapons.flail_swing_sound",
-    "sounds": [
-      "civilized_weapons:flail_swing_sound"
-
     ]
   }
 }

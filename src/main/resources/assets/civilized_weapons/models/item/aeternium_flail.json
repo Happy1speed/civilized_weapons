@@ -1,6 +1,0 @@
-{
-  "parent": "civilized_weapons:item/flail_item",
-  "textures": {
-    "0": "civilized_weapons:item/aeternium_flail"
-  }
-}

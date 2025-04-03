@@ -21,8 +21,6 @@ public class ModItems {
             new SickleItemTemplate(ToolMaterials.IRON, 5.0F,new FabricItemSettings()));
     public static final Item IRON_DUELBLADE = registerItem("iron_duelblade",
               new DuelbladeItemTemplate(ToolMaterials.IRON, 5.0F,new FabricItemSettings()));
-    public static final Item IRON_FLAIL = registerItem("iron_flail",
-            new FlailItemTemplate(ToolMaterials.IRON, 5.0F,new FabricItemSettings()));
     public static final Item IRON_SABER = registerItem("iron_saber",
             new SaberItemTemplate(ToolMaterials.IRON, 4.0F,new FabricItemSettings()));
     public static final Item IRON_SPEAR = registerItem("iron_spear",
@@ -39,8 +37,6 @@ public class ModItems {
             new SickleItemTemplate(ToolMaterials.DIAMOND, 6.0F,new FabricItemSettings()));
     public static final Item DIAMOND_DUELBLADE = registerItem("diamond_duelblade",
             new DuelbladeItemTemplate(ToolMaterials.DIAMOND, 6.0F,new FabricItemSettings()));
-    public static final Item DIAMOND_FLAIL = registerItem("diamond_flail",
-            new FlailItemTemplate(ToolMaterials.DIAMOND, 6.0F,new FabricItemSettings()));
     public static final Item DIAMOND_SABER = registerItem("diamond_saber",
             new SaberItemTemplate(ToolMaterials.DIAMOND, 5.0F,new FabricItemSettings()));
     public static final Item DIAMOND_SPEAR = registerItem("diamond_spear",
@@ -56,8 +52,6 @@ public class ModItems {
             new SickleItemTemplate(ToolMaterials.GOLD, 4.0F,new FabricItemSettings()));
     public static final Item GOLDEN_DUELBLADE = registerItem("golden_duelblade",
             new DuelbladeItemTemplate(ToolMaterials.GOLD, 4.0F,new FabricItemSettings()));
-    public static final Item GOLDEN_FLAIL = registerItem("golden_flail",
-            new FlailItemTemplate(ToolMaterials.GOLD, 4.0F,new FabricItemSettings()));
     public static final Item GOLDEN_SABER = registerItem("golden_saber",
             new SaberItemTemplate(ToolMaterials.GOLD, 3.0F,new FabricItemSettings()));
     public static final Item GOLDEN_SPEAR = registerItem("golden_spear",
@@ -73,8 +67,6 @@ public class ModItems {
             new SickleItemTemplate(ToolMaterials.NETHERITE, 7.0F,new FabricItemSettings()));
     public static final Item NETHERITE_DUELBLADE = registerItem("netherite_duelblade",
             new DuelbladeItemTemplate(ToolMaterials.NETHERITE, 7.0F,new FabricItemSettings()));
-    public static final Item NETHERITE_FLAIL = registerItem("netherite_flail",
-            new FlailItemTemplate(ToolMaterials.NETHERITE, 7.0F,new FabricItemSettings()));
     public static final Item NETHERITE_SABER = registerItem("netherite_saber",
             new SaberItemTemplate(ToolMaterials.NETHERITE, 6.0F,new FabricItemSettings()));
     public static final Item NETHERITE_SPEAR = registerItem("netherite_spear",
@@ -90,8 +82,6 @@ public class ModItems {
             new SickleItemTemplate(ModToolMaterial.THALLASIUMCUBE, 5.0F,new FabricItemSettings()));
     public static final Item THALLASIUM_DUELBLADE = registerItem("thallasium_duelblade",
             new DuelbladeItemTemplate(ModToolMaterial.THALLASIUMCUBE, 5.0F,new FabricItemSettings()));
-    public static final Item THALLASIUM_FLAIL = registerItem("thallasium_flail",
-            new FlailItemTemplate(ModToolMaterial.THALLASIUMCUBE, 5.0F,new FabricItemSettings()));
     public static final Item THALLASIUM_SABER = registerItem("thallasium_saber",
             new SaberItemTemplate(ModToolMaterial.THALLASIUMCUBE, 4.0F,new FabricItemSettings()));
     public static final Item THALLASIUM_SPEAR = registerItem("thallasium_spear",
@@ -107,8 +97,6 @@ public class ModItems {
             new SickleItemTemplate(ModToolMaterial.TERMINITECUBE, 6.0F,new FabricItemSettings()));
     public static final Item TERMINITE_DUELBLADE = registerItem("terminite_duelblade",
             new DuelbladeItemTemplate(ModToolMaterial.TERMINITECUBE, 6.0F,new FabricItemSettings()));
-    public static final Item TERMINITE_FLAIL = registerItem("terminite_flail",
-            new FlailItemTemplate(ModToolMaterial.TERMINITECUBE, 6.0F,new FabricItemSettings()));
     public static final Item TERMINITE_SABER = registerItem("terminite_saber",
             new SaberItemTemplate(ModToolMaterial.TERMINITECUBE, 5.0F,new FabricItemSettings()));
     public static final Item TERMINITE_SPEAR = registerItem("terminite_spear",
@@ -124,8 +112,6 @@ public class ModItems {
             new SickleItemTemplate(ModToolMaterial.AETERNIUMCUBE, 7.5F,new FabricItemSettings()));
     public static final Item AETERNIUM_DUELBLADE = registerItem("aeternium_duelblade",
             new DuelbladeItemTemplate(ModToolMaterial.AETERNIUMCUBE, 7.5F,new FabricItemSettings()));
-    public static final Item AETERNIUM_FLAIL = registerItem("aeternium_flail",
-            new FlailItemTemplate(ModToolMaterial.AETERNIUMCUBE, 7.5F,new FabricItemSettings()));
     public static final Item AETERNIUM_SABER = registerItem("aeternium_saber",
             new SaberItemTemplate(ModToolMaterial.AETERNIUMCUBE, 6.5F,new FabricItemSettings()));
     public static final Item AETERNIUM_SPEAR = registerItem("aeternium_spear",
@@ -142,8 +128,6 @@ public class ModItems {
             new SickleItemTemplate(ModToolMaterial.BEDROCKREPAIR, 8.0F,new FabricItemSettings()));
     public static final Item BEDROCK_DUELBLADE = registerItem("bedrock_duelblade",
             new DuelbladeItemTemplate(ModToolMaterial.BEDROCKREPAIR, 8.0F,new FabricItemSettings()));
-    public static final Item BEDROCK_FLAIL = registerItem("bedrock_flail",
-            new FlailItemTemplate(ModToolMaterial.BEDROCKREPAIR, 8.0F,new FabricItemSettings()));
     public static final Item BEDROCK_SABER = registerItem("bedrock_saber",
             new SaberItemTemplate(ModToolMaterial.BEDROCKREPAIR, 7.0F,new FabricItemSettings()));
     public static final Item BEDROCK_SPEAR = registerItem("bedrock_spear",
@@ -166,7 +150,6 @@ public class ModItems {
         entries.add(IRON_SICKLE);
         entries.add(IRON_DUELBLADE);
         entries.add(IRON_SABER);
-        entries.add(IRON_FLAIL);
         entries.add(DIAMOND_BROADSWORD);
         entries.add(DIAMOND_HALBERD);
         entries.add(DIAMOND_GLAIVE);
@@ -174,7 +157,6 @@ public class ModItems {
         entries.add(DIAMOND_SICKLE);
         entries.add(DIAMOND_DUELBLADE);
         entries.add(DIAMOND_SABER);
-        entries.add(DIAMOND_FLAIL);
         entries.add(GOLDEN_BROADSWORD);
         entries.add(GOLDEN_HALBERD);
         entries.add(GOLDEN_GLAIVE);
@@ -182,7 +164,6 @@ public class ModItems {
         entries.add(GOLDEN_SICKLE);
         entries.add(GOLDEN_DUELBLADE);
         entries.add(GOLDEN_SABER);
-        entries.add(GOLDEN_FLAIL);
         entries.add(NETHERITE_BROADSWORD);
         entries.add(NETHERITE_HALBERD);
         entries.add(NETHERITE_GLAIVE);
@@ -190,7 +171,6 @@ public class ModItems {
         entries.add(NETHERITE_SICKLE);
         entries.add(NETHERITE_DUELBLADE);
         entries.add(NETHERITE_SPEAR);
-        entries.add(NETHERITE_FLAIL);
         entries.add(BEDROCK_BROADSWORD);
         entries.add(BEDROCK_HALBERD);
         entries.add(BEDROCK_GLAIVE);
@@ -198,7 +178,6 @@ public class ModItems {
         entries.add(BEDROCK_SICKLE);
         entries.add(BEDROCK_DUELBLADE);
         entries.add(BEDROCK_SPEAR);
-        entries.add(BEDROCK_FLAIL);
         entries.add(AETERNIUMCUBEITEM);
         entries.add(THALLASIUMCUBEITEM);
         entries.add(TERMINITECUBEITEM);

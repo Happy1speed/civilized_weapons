@@ -20,7 +20,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.CAST_IRON_PAN, Items.IRON_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_BROADSWORD, Items.IRON_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_DUELBLADE, Items.IRON_SWORD);
-        offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_FLAIL, Items.IRON_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_GLAIVE, Items.IRON_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_HALBERD, Items.IRON_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.IRON_SABER, Items.IRON_SWORD);
@@ -29,7 +28,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_BROADSWORD, Items.DIAMOND_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_DUELBLADE, Items.DIAMOND_SWORD);
-        offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_FLAIL, Items.DIAMOND_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_GLAIVE, Items.DIAMOND_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_HALBERD, Items.DIAMOND_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_SABER, Items.DIAMOND_SWORD);
@@ -37,7 +35,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.DIAMOND_SPEAR, Items.DIAMOND_SWORD);
 
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.NETHERITE_BROADSWORD, Items.NETHERITE_SWORD);
-        offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.NETHERITE_FLAIL, Items.NETHERITE_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.NETHERITE_DUELBLADE, Items.NETHERITE_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.NETHERITE_GLAIVE, Items.NETHERITE_SWORD);
         offerStonecuttingRecipe(exporter, RecipeCategory.MISC, ModItems.NETHERITE_SABER, Items.NETHERITE_SWORD);
