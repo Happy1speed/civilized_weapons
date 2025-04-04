@@ -36,7 +36,7 @@ import java.util.List;
 
 public class HalberdItemTemplate extends AdvancedWeaponTemplate {
     public HalberdItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-3.2f,1.0f,0.6f,false,0.0f,
+        super(material,attackDamage,-3.2f,1.6f,0.6f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 false,true, ModSounds.HEAVYTHICKSWOOSHSOUND,  0.0f, 0.0f, 0.5f, 0.6f, settings);
     }
@@ -46,13 +46,6 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
             if (!target.isTeammate(player)) {
                 if (this.prevAttackProgress > 0.9 && player.fallDistance > 0.0f && !player.isOnGround() && !player.isClimbing() && !player.isTouchingWater() && !player.hasStatusEffect(StatusEffects.BLINDNESS) && !player.hasVehicle()) {
-                    if (!CivilizedWeaponsMod.armortohealthloaded) {
-                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE), (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f);
-                    }
-                    else {
-                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) 2);
-                        target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) (Math.min((target.getAttributeValue(EntityAttributes.GENERIC_ARMOR) + target.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) * 0.8, this.getAttackDamage() - 2)));
-                    }
                     if (EnchantmentHelper.getLevel(ModEnchantments.EXECUTION, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && player.fallDistance > 4) {
                         target.damage(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE), (float) ((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * Math.min(2.5, player.fallDistance * 0.1)));
                     }
@@ -103,7 +96,7 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
     }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable("tooltip.civilized_weapons.HalberdCrit.tooltip").formatted(Formatting.GOLD));
+        tooltip.add(Text.translatable("tooltip.civilized_weapons.CritMulti.tooltip", String.valueOf(this.weaponCriticalMultiplier)).formatted(Formatting.GREEN));
         tooltip.add(Text.translatable("tooltip.civilized_weapons.HalberdDisableShield.tooltip").formatted(Formatting.YELLOW));
         tooltip.add(Text.translatable("tooltip.civilized_weapons.TwoHanded.tooltip").formatted(Formatting.GRAY));
         super.appendTooltip(stack, world, tooltip, context);

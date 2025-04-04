@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "minecraft:iron_sword"
-  },
-  "result": "civilized_weapons:iron_duelblade"
-}

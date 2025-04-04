@@ -1,11 +1,8 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
-import net.happyspeed.civilized_weapons.item.custom.DuelbladeItemTemplate;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;

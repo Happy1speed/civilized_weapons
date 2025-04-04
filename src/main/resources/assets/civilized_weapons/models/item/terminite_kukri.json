@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "civilized_weapons:item/terminite_kukri"
+  }
+}

@@ -1,6 +1,6 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.DuelbladeItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.DualbladeItemTemplate;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,6 +22,6 @@ public class FirespinEnchantment extends Enchantment {
 	}
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem().asItem() instanceof DuelbladeItemTemplate;
+		return stack.getItem().asItem() instanceof DualbladeItemTemplate;
 	}
 }

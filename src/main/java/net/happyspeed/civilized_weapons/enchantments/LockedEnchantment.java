@@ -1,6 +1,5 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.DuelbladeItemTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;

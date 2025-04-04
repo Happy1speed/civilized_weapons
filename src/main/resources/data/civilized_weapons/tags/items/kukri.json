@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "civilized_weapons:iron_kukri",
+    "civilized_weapons:diamond_kukri",
+    "civilized_weapons:golden_kukri",
+    "civilized_weapons:netherite_kukri",
+    "civilized_weapons:thallasium_kukri",
+    "civilized_weapons:terminite_kukri",
+    "civilized_weapons:aeternium_kukri",
+    "civilized_weapons:bedrock_kukri"
+  ]
+}

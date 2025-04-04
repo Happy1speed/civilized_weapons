@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "betterend:thallasium_sword"
-  },
-  "result": "civilized_weapons:thallasium_duelblade"
-}

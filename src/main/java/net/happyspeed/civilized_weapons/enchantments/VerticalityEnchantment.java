@@ -1,7 +1,6 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.HalberdItemTemplate;
-import net.happyspeed.civilized_weapons.item.custom.SickleItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.KukriItemTemplate;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
@@ -23,6 +22,6 @@ public class VerticalityEnchantment extends Enchantment {
 	}
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		return stack.getItem().asItem() instanceof SickleItemTemplate;
+		return stack.getItem().asItem() instanceof KukriItemTemplate;
 	}
 }

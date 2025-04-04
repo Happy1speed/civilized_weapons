@@ -22,8 +22,8 @@ public class ModTags {
                 createTag("allowed_offhand_items");
         public static final TagKey<Item> GLAIVE =
                 createTag("glaive");
-        public static final TagKey<Item> SICKLE =
-                createTag("sickle");
+        public static final TagKey<Item> KUKRI =
+                createTag("kukri");
         public static final TagKey<Item> BROADSWORD =
                 createTag("broadsword");
         public static final TagKey<Item> DUELBLADE =

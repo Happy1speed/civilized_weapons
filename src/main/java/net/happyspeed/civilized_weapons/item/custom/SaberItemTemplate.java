@@ -43,7 +43,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
     Entity lockedtarget;
     public SaberItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
         super(material,attackDamage,-2.0f,1.4f,0.4f,true,4.0f,
-                0.0f,3.0f,0.4f,true, true,
+                0.0f,3.0f,0.3f,true, true,
                 true, true, ModSounds.THINSWOOSHSOUND,  2.7f,0.3f, 0.5f,-0.3f, settings);
         this.weaponSweepDamage = this.getAttackDamage();
     }
@@ -90,7 +90,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                                 if (!livingEntity.isTeammate(player)) {
                                     double entityDistance = livingEntity.getPos().distanceTo(player.getPos());
                                     if (livingEntity == player || player.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() ||
-                                            !livingEntity.isAttackable() || !this.IsInViewingAngle(player, livingEntity) || entityDistance > this.realSweepDistance)
+                                            !livingEntity.isAttackable() || !this.IsInViewingAngle(player, livingEntity) || entityDistance > this.realSweepDistance || livingEntity.hurtTime != 0)
                                         continue;
                                     affectSweepEntity(livingEntity, player);
                                     livingEntity.takeKnockback(this.weaponSweepKnockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));

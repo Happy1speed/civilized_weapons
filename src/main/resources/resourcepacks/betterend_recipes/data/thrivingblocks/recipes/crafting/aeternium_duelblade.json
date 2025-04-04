@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "betterend:aeternium_sword"
-  },
-  "result": "civilized_weapons:aeternium_duelblade"
-}

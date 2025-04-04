@@ -1,7 +1,5 @@
 package net.happyspeed.civilized_weapons.enchantments;
 
-import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
-import net.happyspeed.civilized_weapons.item.custom.SickleItemTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SpearItemTemplate;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;

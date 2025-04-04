@@ -109,7 +109,7 @@ public class AdvancedWeaponTemplate extends ToolItem {
                                 if (!livingEntity.isTeammate(player)) {
                                     double entityDistance = livingEntity.getPos().distanceTo(player.getPos());
                                     if (livingEntity == player || player.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() ||
-                                            !livingEntity.isAttackable() || !this.IsInViewingAngle(player, livingEntity) || entityDistance > this.realSweepDistance)
+                                            !livingEntity.isAttackable() || !this.IsInViewingAngle(player, livingEntity) || entityDistance > this.realSweepDistance || livingEntity.hurtTime != 0)
                                         continue;
                                     affectSweepEntity(livingEntity, player);
                                     livingEntity.takeKnockback(this.weaponSweepKnockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
