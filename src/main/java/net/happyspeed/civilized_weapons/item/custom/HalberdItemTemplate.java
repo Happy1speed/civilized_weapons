@@ -38,7 +38,7 @@ public class HalberdItemTemplate extends AdvancedWeaponTemplate {
     public HalberdItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-3.2f,1.6f,0.6f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
-                false,true, ModSounds.HEAVYTHICKSWOOSHSOUND,  0.0f, 0.0f, 0.5f, 0.6f, settings);
+                false,true, ModSounds.HEAVYTHICKSWOOSHSOUND,  0.0f, 0.0f, 0.5f, 0.5f, settings);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {

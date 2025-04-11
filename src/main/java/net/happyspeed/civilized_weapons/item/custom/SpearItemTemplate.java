@@ -38,7 +38,7 @@ import java.util.List;
 
 public class SpearItemTemplate extends AdvancedWeaponTemplate {
     public SpearItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.4f,1.2f,0.5f,false,0.0f,
+        super(material,attackDamage,-2.4f,1.3f,0.5f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 false,true, ModSounds.HEFTYSWOOSHSOUND, 0.0f,0.0f, 0.5f,0.2f, settings);
     }
@@ -48,7 +48,7 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player && !target.isTeammate(player)) {
             if (!CivilizedHelper.isCriticalHit(player, 0.9f) && this.prevAttackProgress > 0.5f && !player.isSneaking() && this.wasSprinting) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
-                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.5f) * this.prevAttackProgress)));
+                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.6f) * this.prevAttackProgress)));
                 player.setSprinting(true);
             }
             //Jousting Enchant Logic
@@ -85,7 +85,7 @@ public class SpearItemTemplate extends AdvancedWeaponTemplate {
     }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable("tooltip.civilized_weapons.CritMulti.tooltip", String.valueOf(this.weaponCriticalMultiplier)).formatted(Formatting.RED));
+        tooltip.add(Text.translatable("tooltip.civilized_weapons.CritMulti.tooltip", String.valueOf(this.weaponCriticalMultiplier)).formatted(Formatting.YELLOW));
         tooltip.add(Text.translatable("tooltip.civilized_weapons.SpearCharge.tooltip").formatted(Formatting.DARK_GREEN));
         super.appendTooltip(stack, world, tooltip, context);
     }

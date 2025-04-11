@@ -120,7 +120,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
 
     @Override
     public void sweepSound(PlayerEntity player) {
-        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 0.6f, 1.1f);
+        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 0.4f, 1.1f);
     }
 
     @Override

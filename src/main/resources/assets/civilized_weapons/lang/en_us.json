@@ -67,7 +67,7 @@
   "tooltip.civilized_weapons.SweepDamage.tooltip": "%s Sweep Damage",
   "tooltip.civilized_weapons.HalberdDisableShield.tooltip": "Disables Shields When Sprinting",
   "tooltip.civilized_weapons.SickleKnockback.tooltip": "Very Low Knockback",
-  "tooltip.civilized_weapons.SpearCharge.tooltip": "Deals 1.5x Damage When Sprinting",
+  "tooltip.civilized_weapons.SpearCharge.tooltip": "Deals 1.6x Damage When Sprinting",
   "tooltip.civilized_weapons.TwoHanded.tooltip": "TwoHanded",
   "sounds.civilized_weapons.cast_iron_pan_sound": "Metal Slams",
   "sounds.civilized_weapons.heavy_thick_swoosh_sound": "Heavy Weapon Swings",
