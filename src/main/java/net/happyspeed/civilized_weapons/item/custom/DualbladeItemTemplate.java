@@ -83,10 +83,14 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
                                             !livingEntity.isAttackable() || entityDistance > this.realSweepDistance || livingEntity.hurtTime != 0)
                                         continue;
                                     if (player.canSee(livingEntity)) {
+                                        float extraCritDamage = 0;
+                                        if (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT) != null) {
+                                            extraCritDamage += (float) (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT).getAmplifier() * 0.5);
+                                        }
                                         if (player.isSneaking()) {
                                             if (this.IsInBehindViewingAngle(player, livingEntity)) {
                                                 if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * this.weaponCriticalMultiplier) * 1.5f) * player.getAttackCooldownProgress(1.0f));
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * 1.5f) * player.getAttackCooldownProgress(1.0f));
                                                     player.addCritParticles(livingEntity);
                                                     player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
                                                 } else {
@@ -106,7 +110,7 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
                                         else {
                                             if (this.IsInViewingAngle(player, livingEntity)) {
                                                 if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * this.weaponCriticalMultiplier) * player.getAttackCooldownProgress(1.0f));
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * player.getAttackCooldownProgress(1.0f));
                                                     player.addCritParticles(livingEntity);
                                                     player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
                                                 } else {

@@ -50,6 +50,7 @@ public class CivilizedWeaponsMod implements ModInitializer {
 	public static StatusEffect ADD_ATTACK_DAMAGE_EFFECT = new AddAttackDamageEffect();
 	public static StatusEffect ADD_SPEED_EFFECT = new AddSpeedEffect();
 	public static StatusEffect SUNSTRIKE_EFFECT = new SunStrikeEffect();
+	public static StatusEffect CRITICAL_BOOST_EFFECT = new CriticalBoostEffect();
 
 	public static final DefaultParticleType SWEEP_DOWN_PARTICLE = FabricParticleTypes.simple();
 	public static final DefaultParticleType HUGE_SWING_PARTICLE = FabricParticleTypes.simple();
@@ -103,6 +104,7 @@ public class CivilizedWeaponsMod implements ModInitializer {
 		Registry.register(Registries.STATUS_EFFECT, new Identifier("civilized_weapons", "add_speed_effect"), ADD_SPEED_EFFECT).addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, "90f8b087-4695-408b-bc19-761831c014be", 0.005f, EntityAttributeModifier.Operation.ADDITION);
 		Registry.register(Registries.STATUS_EFFECT, new Identifier("civilized_weapons", "add_attack_damage_effect"), ADD_ATTACK_DAMAGE_EFFECT).addAttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE, "ec980e18-936e-477a-8eb1-122fa76f9332", 0.5f, EntityAttributeModifier.Operation.ADDITION);
 		Registry.register(Registries.STATUS_EFFECT, new Identifier("civilized_weapons", "sunstrike_effect"), SUNSTRIKE_EFFECT);
+		Registry.register(Registries.STATUS_EFFECT, new Identifier("civilized_weapons", "critical_boost_effect"), CRITICAL_BOOST_EFFECT);
 		Registry.register(Registries.PARTICLE_TYPE, new Identifier(MOD_ID, "sweep_down_particle"), SWEEP_DOWN_PARTICLE);
 		Registry.register(Registries.PARTICLE_TYPE, new Identifier(MOD_ID, "hugeswingparticle"), HUGE_SWING_PARTICLE);
 

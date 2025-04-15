@@ -17,6 +17,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -317,12 +318,17 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
 
     @ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "floatValue=1.5F", ordinal = 0))
     public float criticalMultiplier(float constant) {
+        float crit = 0;
+        if (this.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT) != null) {
+            crit += (float) (this.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT).getAmplifier() * 0.5);
+        }
         if (this.getMainHandStack().getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
-            return advancedWeaponTemplate.weaponCriticalMultiplier;
+            crit += advancedWeaponTemplate.weaponCriticalMultiplier;
         }
         else {
-            return 1.5f;
+            crit += 1.5f;
         }
+        return crit;
     }
 
     @Inject(method = "tick", at = @At(value = "TAIL"))

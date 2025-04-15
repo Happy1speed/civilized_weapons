@@ -95,7 +95,11 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                                     affectSweepEntity(livingEntity, player);
                                     livingEntity.takeKnockback(this.weaponSweepKnockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                                     if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * this.weaponCriticalMultiplier)) * player.getAttackCooldownProgress(1.0f));
+                                        float extraCritDamage = 0;
+                                        if (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT) != null) {
+                                             extraCritDamage += (float) (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT).getAmplifier() * 0.5);
+                                        }
+                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage))) * player.getAttackCooldownProgress(1.0f));
                                         player.addCritParticles(livingEntity);
                                         player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                     }
