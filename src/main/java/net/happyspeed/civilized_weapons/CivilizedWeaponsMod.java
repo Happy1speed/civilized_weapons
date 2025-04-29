@@ -23,6 +23,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ import java.util.UUID;
 public class CivilizedWeaponsMod implements ModInitializer {
 	public static final String MOD_ID = "civilized_weapons";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static SoundCategory weaponSwingSoundCategory;
 
 	public static final UUID CIVIL_ATTACK_RANGE_MODIFIER_ID = UUID.fromString("51770b68-a4e4-4084-ad67-40d52a331a21");
 

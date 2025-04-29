@@ -38,28 +38,24 @@ import java.util.List;
 
 public class SpearItemTemplate extends AdvancedWeaponTemplate {
     public SpearItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.4f,1.3f,0.5f,false,0.0f,
+        super(material,attackDamage,-2.4f,1.4f,0.5f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
-                false,true, ModSounds.HEFTYSWOOSHSOUND, 0.0f,0.0f, 0.5f,0.2f, settings);
+                false,true, ModSounds.HEFTYSWOOSHSOUND, 0.0f,0.0f, 0.6f,0.2f, settings);
     }
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player && !target.isTeammate(player)) {
-            if (!CivilizedHelper.isCriticalHit(player, 0.9f) && this.prevAttackProgress > 0.5f && !player.isSneaking() && this.wasSprinting) {
-                this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
-                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.6f) * this.prevAttackProgress)));
+            if (this.prevAttackProgress > 0.7f && !player.isSneaking() && this.wasSprinting && !CivilizedHelper.isCriticalHit(player, 1.0f)) {
+                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.LAYER_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((((float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.4f) * this.prevAttackProgress)));
+            }
+            if (player.isSprinting()) {
                 player.setSprinting(true);
             }
             //Jousting Enchant Logic
             if (player.hasVehicle() && player.getVehicle() instanceof HorseEntity && EnchantmentHelper.getLevel(ModEnchantments.JOUSTING, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0 && this.prevAttackProgress > 0.7f && !player.isSneaking()) {
                 this.playRandomPitchSound(ModSounds.SPEARHITSOUND, target, 0.6f, 70, 100);
-                if (!(CivilizedWeaponsMod.armortohealthloaded)) {
-                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.AP_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.75f) * this.prevAttackProgress));
-                }
-                else {
-                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), DamageTypes.MOB_ATTACK).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)) * this.prevAttackProgress));
-                }
+                target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), DamageTypes.MOB_ATTACK).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)) * this.prevAttackProgress));
                 target.takeKnockback(0.6, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
             }
             //Pursuer Enchant Logic

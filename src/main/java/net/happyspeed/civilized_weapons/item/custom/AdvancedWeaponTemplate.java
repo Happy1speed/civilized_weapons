@@ -93,14 +93,22 @@ public class AdvancedWeaponTemplate extends ToolItem {
         Random random = new Random();
         float pitch = random.ints(pitchMin, pitchMax).findFirst().getAsInt();
         pitch = pitch / 100;
+        livingEntity.getWorld().playSound(null, livingEntity.getBlockPos(), soundEvent, CivilizedWeaponsMod.weaponSwingSoundCategory, volume,pitch);
+    }
+
+    public void playRandomPitchNonSwingSound(SoundEvent soundEvent, LivingEntity livingEntity, float volume, int pitchMin, int pitchMax) {
+        Random random = new Random();
+        float pitch = random.ints(pitchMin, pitchMax).findFirst().getAsInt();
+        pitch = pitch / 100;
         livingEntity.getWorld().playSound(null, livingEntity.getBlockPos(), soundEvent, SoundCategory.PLAYERS, volume,pitch);
     }
+
     //handle swing sound effect and custom sweeping if weapon has that
     public void activeHit(LivingEntity living) {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
             if (this.isSweepingWeapon) {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.7) {
+                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(0.5f) > 0.7) {
                     if (this.canSweepWhileSprinting || (!player.isSprinting() || player.isSneaking())) {
                         if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().offset(player.getRotationVector().multiply(this.weaponSweepRange,
@@ -123,7 +131,7 @@ public class AdvancedWeaponTemplate extends ToolItem {
                 }
             }
             if (this.hasSwingSFX && UniversalVars.SWINGSOUNDSENABLED) {
-                if (player.getAttackCooldownProgress(1.0f) > 0.3) {
+                if (player.getAttackCooldownProgress(0.5f) > 0.2) {
                     this.swingSoundEvent(living);
                 }
             }
@@ -142,6 +150,9 @@ public class AdvancedWeaponTemplate extends ToolItem {
     public boolean isEnchantable(ItemStack stack) {
         return true;
     }
+
+
+
     public void swingSoundEvent(LivingEntity livingEntity) {}
 
     public void BeforePostHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {}

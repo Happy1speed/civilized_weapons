@@ -28,7 +28,7 @@ import java.util.List;
 public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
     public GlaiveItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
         super(material,attackDamage,-3.0f,1.5f,0.3f,true,5.0f,
-                0.0f,3.8f,0.35f,true, true,
+                0.0f,3.8f,0.4f,true, true,
                 true,true, ModSounds.MEDIUMSWOOSHSOUND,  3.5f, 0.7f, 0.3f, 0.5f, settings);
         this.weaponSweepDamage = this.getAttackDamage() + 1;
     }
@@ -47,7 +47,7 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
                 if (!target.groundCollision) {
                     target.setVelocity(new Vec3d(target.getVelocity().getX(), -0.5, target.getVelocity().getZ()));
                     target.velocityModified = true;
-                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(1.0f)));
+                    target.damage(new DamageSource(ModDamageTypes.of(target.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(0.5f)));
                 }
             }
         }
@@ -72,7 +72,7 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
             if (!living.groundCollision) {
                 living.setVelocity(new Vec3d(living.getVelocity().getX(), -0.5, living.getVelocity().getZ()));
                 living.velocityModified = true;
-                living.damage(new DamageSource(ModDamageTypes.of(living.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(1.0f)));
+                living.damage(new DamageSource(ModDamageTypes.of(living.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((float) (player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2.0f) * player.getAttackCooldownProgress(0.5f)));
             }
         }
     }
@@ -83,7 +83,7 @@ public class GlaiveItemTemplate extends AdvancedWeaponTemplate {
     }
     @Override
     public void sweepSound(PlayerEntity player) {
-        player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 0.7f, 0.8f);
+        this.playRandomPitchNonSwingSound(this.swingSound, player, (float) UniversalVars.SWINGSOUNDSVOLUME, 75, 90);
     }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {

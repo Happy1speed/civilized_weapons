@@ -22,7 +22,7 @@ import java.util.List;
 
 public class KukriItemTemplate extends AdvancedWeaponTemplate {
     public KukriItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-1.4f,1.0f,0.3f,false,0.0f,
+        super(material,attackDamage,-0.8f,1.0f,0.3f,false,0.0f,
                 0.0f,0.0f,0.0f,false, false,
                 true,true, ModSounds.THINSWOOSHSOUND, 0.0f,0.0f, 0.3f,-0.2f, settings);
     }

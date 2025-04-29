@@ -1,6 +1,7 @@
 package net.happyspeed.civilized_weapons.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Sets;
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
@@ -8,7 +9,9 @@ import net.happyspeed.civilized_weapons.sounds.ModSounds;
 import net.happyspeed.civilized_weapons.util.CivilizedHelper;
 import net.happyspeed.civilized_weapons.util.ModDamageTypes;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -32,6 +35,7 @@ import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class BroadswordItemTemplate extends AdvancedWeaponTemplate {
     public BroadswordItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {

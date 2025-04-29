@@ -1,11 +1,14 @@
 package net.happyspeed.civilized_weapons.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
 import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.item.custom.AdvancedWeaponTemplate;
+import net.happyspeed.civilized_weapons.item.custom.KukriItemTemplate;
 import net.happyspeed.civilized_weapons.item.custom.SaberItemTemplate;
+import net.happyspeed.civilized_weapons.item.custom.SpearItemTemplate;
 import net.happyspeed.civilized_weapons.network.S2CHandSyncPacket;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
 import net.happyspeed.civilized_weapons.util.CivilizedHelper;
@@ -25,7 +28,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -37,6 +39,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -213,6 +216,17 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         }
     }
 
+    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSprinting()Z"))
+    public boolean kukruiNoCrit(PlayerEntity instance) {
+        if (instance.getMainHandStack().getItem() instanceof KukriItemTemplate) {
+            return true;
+        }
+        if (instance.getMainHandStack().getItem() instanceof SpearItemTemplate) {
+            return false;
+        }
+        return this.isSprinting();
+    }
+
     @Inject(method = "attack", at = @At("HEAD"))
     public void recordPrevAttackStrength(Entity target, CallbackInfo ci) {
         if (!this.getWorld().isClient()) {
@@ -268,13 +282,13 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     public void testForItemSwitch(CallbackInfo ci) {
         updateDualWieldingSpeedBoost();
 
-        this.heldItemLastTick = this.getMainHandStack();
+        this.heldItemLastTick = this.getStackInHand(lastAttackHand);
         if (this.ticksSinceItemSwap < 200) {
             this.ticksSinceItemSwap++;
         }
         if (this.ticksSinceHit < 21) {
-            if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getMainHandStack().getItem(), 1.0f) < 0.01) {
-                if (this.getMainHandStack().getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getEquippedStack(MAINHAND)) > 0) {
+            if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getStackInHand(lastAttackHand).getItem(), 1.0f) < 0.01) {
+                if (this.getStackInHand(lastAttackHand).getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getStackInHand(lastAttackHand)) > 0) {
                     this.setStatusEffect(new StatusEffectInstance(CivilizedWeaponsMod.ADD_ATTACK_DAMAGE_EFFECT, 20, 5, false, true), this);
                     playSound(SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.PLAYERS, 1.0f, 2.0f);
                     for (int i = 0; i < this.getInventory().size(); i++) {
@@ -290,11 +304,11 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         if (this.getMainHandStack().getItem() != null) {
             if (this.lastSelectedItem != null) {
                 if (this.getMainHandStack().getItem() != this.lastSelectedItem.getItem()) {
-                    this.lastSelectedItem = this.getMainHandStack().getItem().getDefaultStack();
+                    this.lastSelectedItem = this.getStackInHand(lastAttackHand).getItem().getDefaultStack();
                     this.ticksSinceItemSwap = 0;
                 }
             } else {
-                this.lastSelectedItem = this.getMainHandStack().getItem().getDefaultStack();
+                this.lastSelectedItem = this.getStackInHand(lastAttackHand).getItem().getDefaultStack();
                 this.ticksSinceItemSwap = 0;
                 if (this.attackBlockTimer < 5) {
                     this.attackBlockTimer = 5;
@@ -308,26 +322,38 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
             this.playerParryBlocking = false;
             this.alreadyhit.clear();
         }
-        if (this.getMainHandStack().getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
+        if (this.getStackInHand(lastAttackHand).getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
             advancedWeaponTemplate.ticker(this);
-            if (EnchantmentHelper.getLevel(ModEnchantments.TRUSTWORTHY, this.getEquippedStack(MAINHAND)) > 0) {
+            if (EnchantmentHelper.getLevel(ModEnchantments.TRUSTWORTHY, this.getStackInHand(lastAttackHand)) > 0) {
                 advancedWeaponTemplate.tickTrustEnchant(this);
             }
         }
     }
 
     @ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "floatValue=1.5F", ordinal = 0))
-    public float criticalMultiplier(float constant) {
+    public float criticalMultiplier(float constant, @Local(ordinal = 0, argsOnly = true) Entity target) {
+
         float crit = 0;
         if (this.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT) != null) {
             crit += (float) (this.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT).getAmplifier() * 0.5);
         }
-        if (this.getMainHandStack().getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
-            crit += advancedWeaponTemplate.weaponCriticalMultiplier;
+        if (this.getStackInHand(lastAttackHand).getItem() instanceof SpearItemTemplate && this.isSprinting() && !this.isSneaking()) {
+            crit += 0.4f;
         }
-        else {
+        if (this.getStackInHand(lastAttackHand).getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
+            crit += advancedWeaponTemplate.weaponCriticalMultiplier;
+        } else {
             crit += 1.5f;
         }
+        if (this.getStackInHand(this.lastAttackHand).getItem() instanceof AdvancedWeaponTemplate advancedWeaponTemplate) {
+            if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, this.getStackInHand(this.lastAttackHand)) > 0) {
+                if (advancedWeaponTemplate.prevAttackProgress >= 1.0f && this.fallDistance > 0.0f && !this.isOnGround() && !this.isClimbing() && !this.isTouchingWater() && !this.hasStatusEffect(StatusEffects.BLINDNESS) && !this.hasVehicle()) {
+                    target.setVelocity(new Vec3d(target.getVelocity().getX(), 0.7, target.getVelocity().getZ()));
+                    target.velocityModified = true;
+                }
+            }
+        }
+
         return crit;
     }
 

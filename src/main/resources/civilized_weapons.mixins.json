@@ -12,7 +12,8 @@
     "PlayerEntityMixin",
     "PlayerEntitySprintKnockbackMixin",
     "ServerPlayNetworkHandlerInnerMixin",
-    "ServerPlayNetworkHandlerMixin"
+    "ServerPlayNetworkHandlerMixin",
+    "client.SoundCategoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,7 @@
 package net.happyspeed.civilized_weapons.item.custom;
 
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
+import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.config.UniversalVars;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
@@ -16,6 +17,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -27,6 +29,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +46,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
     Entity lockedtarget;
     public SaberItemTemplate(ToolMaterial material, float attackDamage, Settings settings) {
         super(material,attackDamage,-2.0f,1.4f,0.4f,true,4.0f,
-                0.0f,3.0f,0.3f,true, true,
+                0.0f,3.0f,0.4f,true, true,
                 true, true, ModSounds.THINSWOOSHSOUND,  2.7f,0.3f, 0.5f,-0.3f, settings);
         this.weaponSweepDamage = this.getAttackDamage();
     }
@@ -81,7 +84,7 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
             if (this.isSweepingWeapon) {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(1.0f) > 0.3) {
+                if (((!this.canSweepWithoutSneak && player.isSneaking()) || (this.canSweepWithoutSneak && !player.isSneaking())) && player.getAttackCooldownProgress(0.5f) > 0.3) {
                     if (this.canSweepWhileSprinting || (!player.isSprinting() || player.isSneaking())) {
                         if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
                             List<LivingEntity> list = player.getWorld().getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().offset(player.getRotationVector().multiply(this.weaponSweepRange,
@@ -99,13 +102,14 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                                         if (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT) != null) {
                                              extraCritDamage += (float) (player.getStatusEffect(CivilizedWeaponsMod.CRITICAL_BOOST_EFFECT).getAmplifier() * 0.5);
                                         }
-                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage))) * player.getAttackCooldownProgress(1.0f));
+                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage))) * player.getAttackCooldownProgress(0.5f));
                                         player.addCritParticles(livingEntity);
                                         player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                     }
                                     else {
-                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
+                                        livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(0.5f));
                                     }
+                                    this.affectSweepEntity(livingEntity, player);
                                 }
                             }
                             this.sweepSound(player);
@@ -115,9 +119,19 @@ public class SaberItemTemplate extends AdvancedWeaponTemplate {
                 }
             }
             if (this.hasSwingSFX && UniversalVars.SWINGSOUNDSENABLED) {
-                if (player.getAttackCooldownProgress(1.0f) > 0.3) {
+                if (player.getAttackCooldownProgress(0.5f) > 0.2) {
                     this.swingSoundEvent(living);
                 }
+            }
+        }
+    }
+
+    @Override
+    public void affectSweepEntity(LivingEntity living, PlayerEntity player) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, player.getStackInHand(((PlayerClassAccess) player).civilized_weapons$getLastAttackHand())) > 0) {
+            if (player.getAttackCooldownProgress(0.5f) >= 1.0f && player.fallDistance > 0.0f && !player.isOnGround() && !player.isClimbing() && !player.isTouchingWater() && !player.hasStatusEffect(StatusEffects.BLINDNESS) && !player.hasVehicle()) {
+                living.setVelocity(new Vec3d(living.getVelocity().getX(), 0.7, living.getVelocity().getZ()));
+                living.velocityModified = true;
             }
         }
     }

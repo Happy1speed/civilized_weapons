@@ -25,7 +25,7 @@ public class SequenceEnchantment extends Enchantment {
 
 	@Override
 	protected boolean canAccept(Enchantment other) {
-		return super.canAccept(other) && other != Enchantments.FEATHER_FALLING;
+		return super.canAccept(other);
 	}
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {

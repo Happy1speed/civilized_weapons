@@ -56,7 +56,7 @@ public class PanItemTemplate extends AdvancedWeaponTemplate {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         if (!attacker.getWorld().isClient() && attacker instanceof PlayerEntity player) {
-            this.playRandomPitchSound(ModSounds.PANHITSOUND, attacker, (float) UniversalVars.SWINGSOUNDSVOLUME, 60, 100);
+            this.playRandomPitchNonSwingSound(ModSounds.PANHITSOUND, attacker, (float) UniversalVars.SWINGSOUNDSVOLUME, 60, 100);
             target.addVelocity(new Vec3d(target.getVelocity().getX(), 0.2 * this.prevAttackProgress, target.getVelocity().getZ()));
             target.velocityModified = true;
         }
@@ -66,7 +66,7 @@ public class PanItemTemplate extends AdvancedWeaponTemplate {
     public void activeHit(LivingEntity living) {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
             if (this.hasSwingSFX) {
-                if (player.getAttackCooldownProgress(1.0f) > 0.3) {
+                if (player.getAttackCooldownProgress(0.5f) > 0.3) {
                     this.swingSoundEvent(living);
                 }
             }

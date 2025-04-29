@@ -1,6 +1,7 @@
 package net.happyspeed.civilized_weapons.item.custom;
 
 import net.happyspeed.civilized_weapons.CivilizedWeaponsMod;
+import net.happyspeed.civilized_weapons.access.PlayerClassAccess;
 import net.happyspeed.civilized_weapons.enchantments.ModEnchantments;
 import net.happyspeed.civilized_weapons.sounds.ModSounds;
 import net.happyspeed.civilized_weapons.util.CivilizedHelper;
@@ -14,6 +15,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,8 +41,8 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
     int soundpitchmax = 0;
     float tempsweepknockback = 0.0f;
     public DualbladeItemTemplate(ToolMaterial material, float attackDamage, Item.Settings settings) {
-        super(material,attackDamage,-2.6f,1.4f,0.6f,true,6.0f,
-                0.0f,4.0f,0.3f,true, true,
+        super(material,attackDamage,-2.6f,1.3f,0.6f,true,6.0f,
+                0.0f,4.0f,0.4f,true, true,
                 true,true, ModSounds.THINSWOOSHSOUND,  3.0f, 0.4f, 0.4f, 0.0f, settings);
         this.weaponSweepDamage = this.getAttackDamage() + 1;
     }
@@ -49,9 +51,9 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
         if (living instanceof PlayerEntity player && !living.getWorld().isClient()) {
             if (this.isSweepingWeapon) {
                 this.weaponSweepDamage = (float) player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-                if (player.getAttackCooldownProgress(1.0f) > 0.7) {
+                if (player.getAttackCooldownProgress(0.5f) > 0.7) {
                     if (this.canSweepWhileSprinting || !player.isSprinting() || player.isSneaking()) {
-                        if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 0.9f)) {
+                        if (this.canSweepWhileCritical || !CivilizedHelper.isCriticalHit(player, 1.0f)) {
 
                             if (!player.isSneaking()) {
                                 this.realSweepDistance = 3.0f;
@@ -90,32 +92,30 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
                                         if (player.isSneaking()) {
                                             if (this.IsInBehindViewingAngle(player, livingEntity)) {
                                                 if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * 1.5f) * player.getAttackCooldownProgress(1.0f));
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), ((this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * 1.5f) * player.getAttackCooldownProgress(0.5f));
                                                     player.addCritParticles(livingEntity);
-                                                    player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
+                                                    player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                                                 } else {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * 1.5f) * player.getAttackCooldownProgress(1.0f));
-                                                }
-                                                if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
-                                                    livingEntity.setVelocity(new Vec3d(livingEntity.getVelocity().getX(), 0.7, livingEntity.getVelocity().getZ()));
-                                                    livingEntity.velocityModified = true;
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * 1.5f) * player.getAttackCooldownProgress(0.5f));
                                                 }
                                                 if (EnchantmentHelper.getLevel(ModEnchantments.FIRESPIN, player.getEquippedStack(EquipmentSlot.MAINHAND)) > 0) {
                                                     livingEntity.setOnFireFor(2);
                                                 }
+                                                this.affectSweepEntity(livingEntity, player);
                                                 livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                                                 livingEntity.velocityModified = true;
                                             }
                                         }
                                         else {
                                             if (this.IsInViewingAngle(player, livingEntity)) {
-                                                if (CivilizedHelper.isCriticalHit(player, 0.9f)) {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * player.getAttackCooldownProgress(1.0f));
+                                                if (CivilizedHelper.isCriticalHit(player, 1.0f)) {
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), (this.weaponSweepDamage * (this.weaponCriticalMultiplier + extraCritDamage)) * player.getAttackCooldownProgress(0.5f));
                                                     player.addCritParticles(livingEntity);
                                                     player.getWorld().playSound(null, livingEntity.getBlockPos(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 0.7f, 1.0f);
                                                 } else {
-                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(1.0f));
+                                                    livingEntity.damage(new DamageSource(ModDamageTypes.of(livingEntity.getWorld(), ModDamageTypes.SLASH_DAMAGE_TYPE).getTypeRegistryEntry(), player), this.weaponSweepDamage * player.getAttackCooldownProgress(0.5f));
                                                 }
+                                                this.affectSweepEntity(livingEntity, player);
                                                 livingEntity.takeKnockback(this.tempsweepknockback, MathHelper.sin(player.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(player.getYaw() * ((float) Math.PI / 180)));
                                                 livingEntity.velocityModified = true;
                                             }
@@ -123,7 +123,7 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
                                     }
                                 }
                             }
-                            this.playRandomPitchSound(this.tempsweepSound, player, 0.5f, this.soundpitchmin, this.soundpitchmax);
+                            this.playRandomPitchNonSwingSound(this.tempsweepSound, player, 0.5f, this.soundpitchmin, this.soundpitchmax);
                             if (!player.isSneaking()) {
                                 player.spawnSweepAttackParticles();
                             }
@@ -135,7 +135,7 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
                 }
             }
             if (this.hasSwingSFX) {
-                if (player.getAttackCooldownProgress(1.0f) > 0.3) {
+                if (player.getAttackCooldownProgress(0.5f) > 0.2) {
                     this.swingSoundEvent(living);
                 }
             }
@@ -159,6 +159,18 @@ public class DualbladeItemTemplate extends AdvancedWeaponTemplate {
         }
         return TypedActionResult.fail(user.getStackInHand(hand));
     }
+
+    @Override
+    public void affectSweepEntity(LivingEntity living, PlayerEntity player) {
+        if (EnchantmentHelper.getLevel(ModEnchantments.ASCEND, player.getStackInHand(((PlayerClassAccess) player).civilized_weapons$getLastAttackHand())) > 0) {
+            if (player.getAttackCooldownProgress(0.5f) >= 1.0f && player.fallDistance > 0.0f && !player.isOnGround() && !player.isClimbing() && !player.isTouchingWater() && !player.hasStatusEffect(StatusEffects.BLINDNESS) && !player.hasVehicle()) {
+                living.setVelocity(new Vec3d(living.getVelocity().getX(), 0.7, living.getVelocity().getZ()));
+                living.velocityModified = true;
+            }
+        }
+    }
+
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
