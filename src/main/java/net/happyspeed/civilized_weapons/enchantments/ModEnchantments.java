@@ -28,6 +28,7 @@ public class ModEnchantments {
     public static final Enchantment DEFENDER = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "defender"), new DefenderEnchantment());
     public static final Enchantment LIGHTWEIGHT = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "lightweight"), new LightweightEnchantment());
     public static final Enchantment MULTITARGET = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "multitarget"), new MultitargetEnchantment());
+    public static final Enchantment SNEAKATTACK = Registry.register(Registries.ENCHANTMENT, new Identifier(CivilizedWeaponsMod.MOD_ID, "sneakattack"), new SneakattackEnchantment());
 
     private static Enchantment register(String name, Enchantment enchantment) {
         return Registry.register(Registries.ENCHANTMENT, name, enchantment);

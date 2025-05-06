@@ -126,6 +126,8 @@
   "enchantment.civilized_weapons.lightweight.desc": "Makes Twohanded weapons Onehanded. Weapon attack damage is reduced by 1",
   "enchantment.civilized_weapons.multitarget": "Multitarget",
   "enchantment.civilized_weapons.multitarget.desc": "Nearby enemies of the same type of the hit entity will be damaged by half your weapon's attack damage",
+  "enchantment.civilized_weapons.sneakattack": "Sneak Attack",
+  "enchantment.civilized_weapons.sneakattack.desc": "Attacks within one second after sneaking will be critical",
   "death.attack.armorpiercingdamage": "%1$s got sliced!",
   "death.attack.layereddamage": "%1$s was poked too hard!",
   "death.attack.slashdamage": "%1$s got slashed!",

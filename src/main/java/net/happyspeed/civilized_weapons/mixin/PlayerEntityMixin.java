@@ -78,6 +78,11 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
     @Unique
     public int ticksSinceHit;
 
+    @Unique
+    public int ticksSinceSneakStart = 0;
+
+    @Unique
+    public boolean wasSneakingTickBefore = false;
 
     @Unique
     public ArrayList<ArrowEntity> alreadyhit = new ArrayList<>();
@@ -218,13 +223,40 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
 
     @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSprinting()Z"))
     public boolean kukruiNoCrit(PlayerEntity instance) {
-        if (instance.getMainHandStack().getItem() instanceof KukriItemTemplate) {
-            return true;
-        }
         if (instance.getMainHandStack().getItem() instanceof SpearItemTemplate) {
             return false;
         }
+
+        if (EnchantmentHelper.getLevel(ModEnchantments.SNEAKATTACK, this.getStackInHand(((PlayerClassAccess) this).civilized_weapons$getLastAttackHand())) > 0) {
+            if (!wasSneakingTickBefore && this.isSneaking()) {
+                ticksSinceSneakStart = 0;
+                wasSneakingTickBefore = true;
+            }
+            if (ticksSinceSneakStart <= 30 && this.isSneaking()) {
+                return false;
+            }
+        }
+
         return this.isSprinting();
+    }
+
+    @ModifyVariable(method = "attack", at = @At("STORE"), ordinal = 2)
+    private boolean ChangeCrit(boolean x, @Local(ordinal = 0) boolean bl, @Local(ordinal = 0, argsOnly = true) Entity target) {
+        if (this.getMainHandStack().getItem() instanceof KukriItemTemplate) {
+            return false;
+        }
+
+        if (EnchantmentHelper.getLevel(ModEnchantments.SNEAKATTACK, this.getStackInHand(((PlayerClassAccess) this).civilized_weapons$getLastAttackHand())) > 0) {
+            if (!wasSneakingTickBefore && this.isSneaking()) {
+                ticksSinceSneakStart = 0;
+                wasSneakingTickBefore = true;
+            }
+            if (ticksSinceSneakStart <= 30 && this.isSneaking()) {
+                return true;
+            }
+        }
+
+        return bl && this.fallDistance > 0.0f && !this.isOnGround() && !this.isClimbing() && !this.isTouchingWater() && !this.hasStatusEffect(StatusEffects.BLINDNESS) && !this.hasVehicle() && target instanceof LivingEntity;
     }
 
     @Inject(method = "attack", at = @At("HEAD"))
@@ -286,6 +318,19 @@ abstract class PlayerEntityMixin extends LivingEntity implements PlayerClassAcce
         if (this.ticksSinceItemSwap < 200) {
             this.ticksSinceItemSwap++;
         }
+        if (this.isSneaking()) {
+            if (ticksSinceSneakStart < 60) {
+                ticksSinceSneakStart++;
+            }
+        }
+        if (!wasSneakingTickBefore && this.isSneaking()) {
+            ticksSinceSneakStart = 0;
+            wasSneakingTickBefore = true;
+        }
+        if (wasSneakingTickBefore && !this.isSneaking()) {
+            wasSneakingTickBefore = false;
+        }
+
         if (this.ticksSinceHit < 21) {
             if (this.ticksSinceHit == 0 && this.getItemCooldownManager().getCooldownProgress(this.getStackInHand(lastAttackHand).getItem(), 1.0f) < 0.01) {
                 if (this.getStackInHand(lastAttackHand).getItem() instanceof SaberItemTemplate && EnchantmentHelper.getLevel(ModEnchantments.RHYTHM, this.getStackInHand(lastAttackHand)) > 0) {
